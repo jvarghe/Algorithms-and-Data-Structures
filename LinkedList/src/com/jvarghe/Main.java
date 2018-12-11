@@ -62,7 +62,33 @@
   *    
   *    3. Not Cache Friendly: Due to the fact that Arrays are contiguous blocks and Linked
   *       Lists are not, Linked Lists are not cache friendly. 
- */
+  *       
+  *       
+  * PERFORMANCE CHARACTERISTICS OF A LINKED LIST
+  * 
+  * 1. Adding a New Element to the End of a Linked List: O(N). With a simple 
+  *    implementation, adding a new element would entail first traversing the Linked List
+  *    to find the last element. This is what makes it a linear operation. There are 
+  *    implementation tricks to get around this. You can add a property to track the last
+  *    element, thereby cutting the time complexity of this operation to O(1).  
+  *    
+  * 2. Adding a New Element to the Beginning of a Linked List: This is an easy operation 
+  *    as Linked Lists normally track the Head element. The Head property merely needs to
+  *    be pointed to the new element. That makes this is an O(1) operation.
+  *    
+  * 3. Searching for an Element in a Linked List: is an O(N) operation. As the 
+  *    architecture of a Linked List fundamentally resists faster search algorithms like 
+  *    Binary Search, you are normally limited to a Linear search algorithms. This means 
+  *    that the algorithm must find each element and compare it to the search term, which 
+  *    on average requires iterating through the whole list. 
+  *    
+  * 4. Deleting the First Element in a Linked List: O(1). Once again, having a reference
+  *    to the Head element makes it super easy to locate and delete the first element. 
+  *    This is a constant time operation.
+  *    
+  * 5. Deleting a Random Element in a Linked List: O(N). This is linear time operation on
+  *    average due to the search time. See point 3. 
+  */    
  
  
 package com.jvarghe;
