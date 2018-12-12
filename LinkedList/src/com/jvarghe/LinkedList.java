@@ -69,7 +69,7 @@ public class LinkedList<T extends Comparable<T>> implements Cloneable
     // RETURN THE FIRST ELEMENT OF THE LINKED LIST
     // Accesses the first element and pops it off the list. Extract its data and return 
     // it to the caller.
-    public T getFirstElement()
+    public T popFirstElement()
     {
         // This variable will contain the data from the first element. 
         T firstElement = null;
