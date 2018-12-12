@@ -4,6 +4,8 @@
  * A Linked List is a linear data structure, similar to an Array. Linked Lists exist to 
  * mitigate some of the drawbacks of an Array. 
  * 
+ * This implementation is based on Loony Corn Studios' Linked List. 
+ * 
  * 
  * DRAWBACKS OF ARRAYS 
  * 
@@ -13,11 +15,12 @@
  * in memory, its elements are stored in a contiguous block, which can cause problems if 
  * the array is very large. The third, and possibly worst drawback, is that inserting an
  * element in the middle of existing array is computationally expensive. Behind the 
- * scenes, the Java Runtime might have to create a new array and break up the the old one 
- * into two blocks. The JRE will have to insert the first block from the old array into 
- * the new array, after which it will insert the new element and then finally add the 
- * second block after the new element. The same process applies to the deletion an 
- * element.  
+ * scenes, the Java Runtime may have to create a new, larger array. It then has to copy
+ * the first block of elements from the old array, the ones that occur earlier than the
+ * index of the new element. Then the new element can be be added, followed by the second
+ * block of elements whose indices are greater than that of the new element. The same 
+ * process applies to the deletion an element. Thus, inserting or deleting elements from 
+ * an array is a taxing operation. 
  * 
  * 
  * FEATURES OF A LINKED LIST
@@ -44,10 +47,12 @@
  *     1. No Random Access: With an array, you can simply skip to the 54th element and 
  *        access its value. This is not as easy in a Linked List. Finding an element 
  *        requires starting at the head and following the references until you find the
- *        element you are looking for. 
+ *        element you are looking for. If you are doing lots of random access operations
+ *        on a linked list, it will perform poorly. Use an Array instead, for they can
+ *        do extremely fast element lookup (O(1)).
  *        
- *        This makes algorithms like Binary Search are much more inefficient when using a 
- *        Singly Linked List. Binary Search uses the Divide-and-Conquer strategy of
+ *        This also makes algorithms like Binary Search much more inefficient when using 
+ *        a Singly Linked List. Binary Search uses the Divide-and-Conquer strategy of
  *        cutting the search space in half to find the search value. This involves finding
  *        the middle value in an ordered lists of values. In an array, finding the middle
  *        value is an O(1) operation when it comes to time complexity. In an Linked List, 
@@ -58,11 +63,31 @@
   *       linear time (O(N)), which is on the same order as a sequential search algorithm
   *       on average.
   *       
-  *    2. Data Elements Take Up More Memory: than in an array due to references. 
+  *    2. Data Elements Take Up More Memory: than in an array due to references. If you 
+  *       are working in a memory-limited environment, such as embedded devices, consider
+  *       the use of Linked Lists carefully.
   *    
-  *    3. Not Cache Friendly: Due to the fact that Arrays are contiguous blocks and Linked
-  *       Lists are not, Linked Lists are not cache friendly. 
+  *    3. Not Cache Friendly: A processor usually stores commonly used data in special 
+  *       super-fast memory called a Cache. This lets the processor quickly look up data
+  *       without making calls to the disk or memory. As such, such look-up operations 
+  *       are lightning fast.
   *       
+  *       When the processor starts using a certain piece of data, it may decide that the 
+  *       entire block of data in and around this piece, whether it sits on disk or in 
+  *       memory, will be needed in the immediate future. If this happens, the processor
+  *       may load this entire block into the cache. This is related to a concept called
+  *      'Spatial Locality'. 
+  *       
+  *       When the processor starts accessing elements in an array, it may decide to load
+  *       the entire array into the cache for future use. This is helped by the fact that
+  *       arrays are typically stored as contiguous blocks. 
+  *       
+  *       However, Linked Lists cannot take advantage of spatial locality by the cache 
+  *       due to the fact that a Linked Lists elements may live anywhere in memory. This 
+  *       makes reading from a Linked List many times slower than reading from an Array.
+  *       A combination of caching and random access means that arrays are built for read
+  *       operations. 
+  *    
   *       
   * PERFORMANCE CHARACTERISTICS OF A LINKED LIST
   * 
@@ -88,6 +113,23 @@
   *    
   * 5. Deleting a Random Element in a Linked List: O(N). This is linear time operation on
   *    average due to the search time. See point 3. 
+  *    
+  *    
+  * QUICK SUMMARY OF TRADE OFFS
+  * 
+  * Choose Linked Links:
+  * 
+  *     * If you have a large number of elements whose size you cannot determine in 
+  *       advance, or if you need to drastically change the size of your list. 
+  *     
+  *     * If you plan to perform many insertions and deletions on your list.
+  *     
+  *     
+  * Choose Arrays:
+  * 
+  *     * When you need to make many random access operations. 
+  *     
+  *     * If you need to make lots of read operations and comparatively few update ops.
   */    
  
  
@@ -129,10 +171,12 @@ package com.jvarghe;
         System.out.println("Printing out new list...");
         marvelCharacters.printElements();
         
+        
         // Calculate the size of the linked list.
         System.out.println("The current size of the linked list is: " 
                 + marvelCharacters.countElements());
         System.out.println();
+        
         
         // Pop first element off the linked list. 
         String firstElement = marvelCharacters.popFirstElement();
@@ -142,6 +186,7 @@ package com.jvarghe;
         System.out.println("Printing list again...");
         marvelCharacters.printElements();
         System.out.println();
+        
         
         // Inserting a node at a specific index.
         marvelCharacters.insertElementAtIndexN("Captain America", 5);
@@ -155,7 +200,8 @@ package com.jvarghe;
         // Deleting all nodes.
         marvelCharacters.deleteAllElements();
         System.out.println("Called the deleteAllElements() method on this linked list.");
-        System.out.println("Attempting to call printElements() on this list.");
+        System.out.println("Attempting to call printElements() on this list...");
+        System.out.print("Response: ");
         marvelCharacters.printElements();
     }
 }
