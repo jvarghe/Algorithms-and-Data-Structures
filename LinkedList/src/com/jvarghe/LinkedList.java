@@ -9,7 +9,7 @@
  * However, you can use implementation tricks to track the number of elements as they are 
  * added or removed from a list. See the countNodes() method below. By tracking elements
  * as they enter or exit the Linked List, you can avoid traversing the Linked List when 
- * you need to know its size. By using an counter, you can turn this into a constant time
+ * you need to know its size. By using a counter, you can turn this into a constant time
  * operation. 
  */
 
