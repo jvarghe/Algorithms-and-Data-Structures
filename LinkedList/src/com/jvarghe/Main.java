@@ -144,8 +144,8 @@ package com.jvarghe;
         System.out.println();
         
         // Inserting a node at a specific index.
-        marvelCharacters.insertElementAtIndex("Captain America", 5);
-        System.out.println("Inserted a new node, Captain America, at the fifth index in the list ");
+        marvelCharacters.insertElementAtIndexN("Captain America", 5);
+        System.out.println("Inserted a new node, Captain America, at the fifth index in the list.");
 
         System.out.println("Printing list again...");
         marvelCharacters.printElements();
@@ -156,5 +156,6 @@ package com.jvarghe;
         marvelCharacters.deleteAllElements();
         System.out.println("Called the deleteAllElements() method on this linked list.");
         System.out.println("Attempting to call printElements() on this list.");
+        marvelCharacters.printElements();
     }
 }
