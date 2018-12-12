@@ -76,7 +76,7 @@ public class LinkedList<T extends Comparable<T>> implements Cloneable
         
         if(head == null)
         {
-            firstElement = null;
+            return firstElement;
         }
         else if(head != null)
         {
@@ -120,16 +120,17 @@ public class LinkedList<T extends Comparable<T>> implements Cloneable
     
     
     // INSERT AN ELEMENT AT A SPECIFIC INDEX
-    public void insertElementAtIndex(T elementValue, int index)
+    // This method will insert an element at a user-specified index, called N. 
+    public void insertElementAtIndexN(T elementValue, int index)
     {
         // If the provided index point is larger than the size of the Linked List, exit
         // without doing anything.
         if(index > countElements())
         {
-            return;
+            System.out.println("The index is larger than this Linked List!");
         }
         
-        // If index is 0, set the new element to be the head. 
+        // If index is 0, make the new element the head. 
         if(index == 0)
         {
             // First, the existing head is made into the second node. Then, the new head
@@ -139,6 +140,34 @@ public class LinkedList<T extends Comparable<T>> implements Cloneable
             Node<T> secondNode = head;
             head = new Node<T>(elementValue);
             head.setNextNode(secondNode);
+        }
+        // Find node (N - 1) and create and add a new node after it. Then, connect the 
+        // new node to the old node that used to be at N. 
+        else
+        {
+            int i = 0;
+            Node<T> currentNode = head;
+            
+            // Traverse the list to the node immediately before N (the index of the 
+            // new element).
+            while(i < (index - 1))
+            {
+                currentNode = currentNode.getNextNode();
+                i++;
+            }
+            
+            // Add handles for the nodes that point to elements (N - 1) and N. In the 
+            // next step, a node will be added between these two elements. 
+            Node<T> nodeAtNMinusOne = currentNode;
+            Node<T> nodeAtOldN = nodeAtNMinusOne.getNextNode();
+
+            // Create the new node and load data into it. 
+            Node<T> nodeAtNewN = new Node<T>(elementValue);
+            
+            // Connect node (N - 1) to the new node, then connect the new node to the old
+            // node at N. 
+            nodeAtNMinusOne.setNextNode(nodeAtNewN);
+            nodeAtNewN.setNextNode(nodeAtOldN);
         }
     }
 
