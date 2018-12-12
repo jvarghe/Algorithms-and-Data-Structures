@@ -93,11 +93,68 @@
  
 package com.jvarghe;
 
-public class Main 
+ import sun.awt.windows.ThemeReader;
+
+ public class Main 
 {
 
     public static void main(String[] args) 
     {
+        // Create a Linked List. 
+        LinkedList<String> marvelCharacters = new LinkedList<String>();
         
+        // Add elements to it. 
+        marvelCharacters.addNode("Hulk");
+        marvelCharacters.addNode("Spider-Man");
+        marvelCharacters.addNode("Thor");
+        marvelCharacters.addNode("Deadpool");
+        marvelCharacters.addNode("Dr. Strange");
+        
+        // Print the full list.
+        System.out.println("Using the printElements() method to print all the original nodes in " +
+                "this list:");
+        marvelCharacters.printElements();
+        System.out.println();
+        
+        
+        // Add new nodes to the list.
+        marvelCharacters.addNode("Storm");
+        marvelCharacters.addNode("Rogue");
+        marvelCharacters.addNode("Jean Grey");
+        marvelCharacters.addNode("Professor X");
+        marvelCharacters.addNode("Star-Lord");
+        
+        // Print out modified list.
+        System.out. println("Added five new nodes to the list.");
+        System.out.println("Printing out new list...");
+        marvelCharacters.printElements();
+        
+        // Calculate the size of the linked list.
+        System.out.println("The current size of the linked list is: " 
+                + marvelCharacters.countElements());
+        System.out.println();
+        
+        // Pop first element off the linked list. 
+        String firstElement = marvelCharacters.popFirstElement();
+        System.out.println("The first element was popped off the list. It's value is: " 
+                + firstElement);
+        
+        System.out.println("Printing list again...");
+        marvelCharacters.printElements();
+        System.out.println();
+        
+        // Inserting a node at a specific index.
+        marvelCharacters.insertElementAtIndex("Captain America", 5);
+        System.out.println("Inserted a new node, Captain America, at the fifth index in the list ");
+
+        System.out.println("Printing list again...");
+        marvelCharacters.printElements();
+        System.out.println();
+        
+        
+        // Deleting all nodes.
+        marvelCharacters.deleteAllElements();
+        System.out.println("Called the deleteAllElements() method on this linked list.");
+        System.out.println("Attempting to call printElements() on this list.");
     }
 }
