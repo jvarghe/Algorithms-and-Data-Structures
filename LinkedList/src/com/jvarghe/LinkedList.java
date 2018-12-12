@@ -105,11 +105,13 @@ public class LinkedList<T extends Comparable<T>> implements Cloneable
             Node<T> lastNode;
 
             // Iterate through the list to find the final element.
-            while(currentNode != null)
+            while(currentNode.getNextNode() != null)
             {
                 currentNode = currentNode.getNextNode();
             }
 
+            // Transfer the value of 'currentNode', which, at the end of the loop, should 
+            // be the last node, into the new variable called 'lastNode'.
             lastNode = currentNode;
             // Add the new node.
             lastNode.setNextNode(new Node<T>(elementValue));
@@ -166,7 +168,7 @@ public class LinkedList<T extends Comparable<T>> implements Cloneable
             int i = 1; 
             while(currentNode != null)
             {
-                System.out.println("Node Number " + i + ": Value" + currentNode.toString());
+                System.out.println("Node Number " + i + ": " + currentNode.toString());
                 currentNode = currentNode.getNextNode();
                 i++;
             }
