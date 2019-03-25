@@ -30,9 +30,9 @@
 
 package com.jvarghe;
 
+
 public class Program
 {
-
     public static void main(String[] args) 
     {
         // Declare the array to be sorted. 
