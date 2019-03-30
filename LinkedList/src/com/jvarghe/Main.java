@@ -183,9 +183,9 @@ public class Main
         marvelCharacters.addNode("Dr. Strange");
         
         // Print the full list.
-        System.out.println("Using the printElements() method to print all the original nodes in " +
+        System.out.println("Using the printNodes() method to print all the original nodes in " +
                 "this list:");
-        marvelCharacters.printElements();
+        marvelCharacters.printNodes();
         System.out.println();
         
         
@@ -199,39 +199,39 @@ public class Main
         // Print out modified list.
         System.out. println("Added five new nodes to the list.");
         System.out.println("Printing out new list...");
-        marvelCharacters.printElements();
+        marvelCharacters.printNodes();
         
         
         // Calculate the size of the linked list.
         System.out.println("The current size of the linked list is: " 
-                + marvelCharacters.countElements());
+                + marvelCharacters.countNodes());
         System.out.println();
         
         
         // Pop first element off the linked list. 
-        String firstElement = marvelCharacters.popFirstElement();
+        String firstElement = marvelCharacters.popFirstNode();
         System.out.println("The first element was popped off the list. It's value is: " 
                 + firstElement);
         
         System.out.println("Printing list again...");
-        marvelCharacters.printElements();
+        marvelCharacters.printNodes();
         System.out.println();
         
         
         // Inserting a node at a specific index.
-        marvelCharacters.insertElementAtIndexN("Captain America", 5);
+        marvelCharacters.insertNodeAtIndexN("Captain America", 5);
         System.out.println("Inserted a new node, Captain America, at the fifth index in the list.");
 
         System.out.println("Printing list again...");
-        marvelCharacters.printElements();
+        marvelCharacters.printNodes();
         System.out.println();
         
         
         // Deleting all nodes.
-        marvelCharacters.deleteAllElements();
-        System.out.println("Called the deleteAllElements() method on this linked list.");
-        System.out.println("Attempting to call printElements() on this list...");
+        marvelCharacters.deleteAllNodes();
+        System.out.println("Called the deleteAllNodes() method on this linked list.");
+        System.out.println("Attempting to call printNodes() on this list...");
         System.out.print("Response: ");
-        marvelCharacters.printElements();
+        marvelCharacters.printNodes();
     }
 }
