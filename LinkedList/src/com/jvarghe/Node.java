@@ -14,7 +14,7 @@ public class Node<T extends Comparable<T>>
     private T element; 
     
     // The Address of the Next Node.
-    private Node<T> nextNodeAddress;
+    private Node<T> nextNode;
     
     
     // METHODS:
@@ -42,13 +42,13 @@ public class Node<T extends Comparable<T>>
     // Next Node Getter: Get the Address of the Next Node. 
     public Node<T> getNextNode()
     {
-        return this.nextNodeAddress;
+        return this.nextNode;
     }
     
     // Next Node Setter: Set the Address of the Next Node. 
-    public void setNextNode(Node<T> nextNode)
+    public void setNextNode(Node<T> Node)
     {
-        this.nextNodeAddress = nextNode;
+        this.nextNode = Node;
     }
     
     
