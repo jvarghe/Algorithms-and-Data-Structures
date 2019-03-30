@@ -29,9 +29,8 @@ public class Node<T extends Comparable<T>>
     // Element Getter: Return the Current Node's Data Value. 
     public T getElement()
     {
-        return element;
+        return this.element;
     }
-    
     
     // Element Setter: Set the Current Node's Data Value.
     public void setElement(T value)
@@ -39,12 +38,12 @@ public class Node<T extends Comparable<T>>
         this.element = value; 
     }
     
+    
     // Next Node Getter: Get the Address of the Next Node. 
     public Node<T> getNextNode()
     {
-        return nextNodeAddress;
+        return this.nextNodeAddress;
     }
-    
     
     // Next Node Setter: Set the Address of the Next Node. 
     public void setNextNode(Node<T> nextNode)
@@ -56,8 +55,5 @@ public class Node<T extends Comparable<T>>
     // Overrides Java's String method in the base Object class to print Node class's 
     // values to screen. 
     @Override
-    public String toString()
-    {
-        return String.valueOf(this.element);
-    }
+    public String toString() { return String.valueOf(this.element); }
 }
