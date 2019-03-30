@@ -172,10 +172,10 @@ public class Main
 
     public static void main(String[] args) 
     {
-        // Create a Linked List. 
+        // 1. Create a Linked List. 
         LinkedList<String> marvelCharacters = new LinkedList<String>();
         
-        // Add elements to it. 
+        // 2. Add elements to it. 
         marvelCharacters.addNode("Hulk");
         marvelCharacters.addNode("Spider-Man");
         marvelCharacters.addNode("Thor");
@@ -183,13 +183,14 @@ public class Main
         marvelCharacters.addNode("Dr. Strange");
         
         // Print the full list.
-        System.out.println("Using the printNodes() method to print all the original nodes in " +
-                "this list:");
+        System.out.println();
+        System.out.println("Using the printNodes() method to print all the original " +
+                "nodes in this list:");
         marvelCharacters.printNodes();
         System.out.println();
         
         
-        // Add new nodes to the list.
+        // 3. Add new nodes to the list.
         marvelCharacters.addNode("Storm");
         marvelCharacters.addNode("Rogue");
         marvelCharacters.addNode("Jean Grey");
@@ -200,9 +201,10 @@ public class Main
         System.out. println("Added five new nodes to the list.");
         System.out.println("Printing out new list...");
         marvelCharacters.printNodes();
+        System.out.println();
         
         
-        // Calculate the size of the linked list.
+        // 4. Calculate the size of the linked list.
         System.out.println("The current size of the linked list is: " 
                 + marvelCharacters.countNodes());
         System.out.println();
@@ -218,8 +220,8 @@ public class Main
         System.out.println();
         
         
-        // Inserting a node at a specific index.
-        marvelCharacters.insertNodeAtIndexN("Captain America", 5);
+        // 5. Inserting a node at a specific index.
+        marvelCharacters.insertNodeAtIndex("Captain America", 5);
         System.out.println("Inserted a new node, Captain America, at the fifth index in the list.");
 
         System.out.println("Printing list again...");
@@ -227,7 +229,7 @@ public class Main
         System.out.println();
         
         
-        // Deleting all nodes.
+        // 6. Deleting all nodes.
         marvelCharacters.deleteAllNodes();
         System.out.println("Called the deleteAllNodes() method on this linked list.");
         System.out.println("Attempting to call printNodes() on this list...");
