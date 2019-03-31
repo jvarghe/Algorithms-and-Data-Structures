@@ -74,7 +74,7 @@ public class BinarySearch_Integers
 
 
     // This method will print the results to screen.
-    private static void PrintResults(int searchValue, int searchValueIndex)
+    public static void PrintResults(int searchValue, int searchValueIndex)
     {
         String printString;
 

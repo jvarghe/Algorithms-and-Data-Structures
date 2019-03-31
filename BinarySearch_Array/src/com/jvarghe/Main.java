@@ -32,6 +32,7 @@
 
 package com.jvarghe;
 
+
 public class Main
 {
     public static void main(String[] args)
@@ -42,10 +43,10 @@ public class Main
         // Edit this number to change the value being searched for. 
         int searchValue = 999;
 
+        // Run Binary Search on your array to find the index of the searchValue.
+        int searchValueIndex = BinarySearch_Integers.findValue(integerArray, searchValue);
 
-        PrintResults(searchValue, valueIndex);
+        // Print the results to screen. 
+        BinarySearch_Integers.PrintResults(searchValue, searchValueIndex);
     }
-
-
-
 }
