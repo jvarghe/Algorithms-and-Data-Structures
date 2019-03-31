@@ -17,13 +17,13 @@
  * Here is a snapshot of what the list will look like halfway through the sorting process: 
  * the algorithm will have separated the list into two parts. The first segment of the 
  * list is now sorted in ascending order, and second segment, which is still to be 
- * sorted. Selection sort will continue the sorting process until the entire list has 
+ * sorted. Selection execute will continue the sorting process until the entire list has 
  * been sorted.
  * 
- * Selection sort is an inefficient algorithm, suited only for small data sets. Its 
- * runtime is O(n^2). Why does it run in exponential time? Selection sort has to check n 
+ * Selection execute is an inefficient algorithm, suited only for small data sets. Its 
+ * runtime is O(n^2). Why does it run in exponential time? Selection execute has to check n 
  * elements * (n - 1) elements * (n - 2) elements ... 3, 2, 1. On average, this means 
- * that selection sort has to check (1/2n) * n elements. As Big-O Notation is concerned 
+ * that selection execute has to check (1/2n) * n elements. As Big-O Notation is concerned 
  * more with orders of magnitude than multiples, this is rounded up to n * n.
  */
 
@@ -47,7 +47,7 @@ public class Program
         
 
         // Run Selection Sort on the array.
-	    int[] sortedArray = SelectionSort.sort(integerArray);
+	    int[] sortedArray = SelectionSort.execute(integerArray);
 	    
 	    
 	    // Print the Sorted Array to screen: 
