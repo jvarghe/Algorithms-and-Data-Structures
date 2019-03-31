@@ -1,10 +1,11 @@
 package com.jvarghe;
 
 
+// This class is designed to execute the Binary Search algorithm on an array, searching
+// it for an integer. 
 public class BinarySearch_Integers
 {
-    // This method executes Binary Search on an array of integers, searching it for a 
-    // user-specified integer value.
+    // This is the Binary Search method.
     public static int findValue(int[] integerArray, int searchValue)
     {
         // This is the index of the search value. It is set to an out of bounds value by 
