@@ -13,7 +13,7 @@ public class SelectionSort
     
     
     // Selection Sort Algorithm
-    public static int[] sort(int[] array) 
+    public static int[] execute(int[] array) 
     {
         int smallestValue = 0;              // This variable is for the smallest value in the list.
         int indexOfSmallestValue = 0;       // This one is for the index of the smallest value.
@@ -26,7 +26,8 @@ public class SelectionSort
         // In this loop an element i is selected, against which the second loop will 
         // compare elements i + 1, i + 2,... and so on. i ends on the second last element 
         // so that the second loop can compare it to the final element.
-        for (int i = 0; (i < integerArray.length - 1); i++) {
+        for (int i = 0; (i < integerArray.length - 1); i++) 
+        {
             smallestValue = integerArray[i];
             indexOfSmallestValue = i;
 
