@@ -1,36 +1,43 @@
 /* QUICKSORT
  *
+ * The Quicksort (QS) algorithm is a moderately fast one, but one that could take 
+ * exponential time in the worst case. Nevertheless, it is one of the most commonly used 
+ * sorting algorithms.
  *
- * The quicksort (QS) algorithm is a moderately fast one, but one that could take exponential time
- * inthe worst case. Nevertheless, it is one of the most commonly used sorting algorithms.
+ * Quicksort is a recursive algorithm that uses the Divide-and-Conquer strategy to break 
+ * down the main problem into sub-problems. The sub-problems are recursively solved and 
+ * their solutions are added up to produce the full solution to the problem. "Because 
+ * divide-and-conquer creates at least two sub-problems, a divide-and-conquer algorithm 
+ * makes multiple recursive calls."[1] In Quicksort, all the work happens in the DIVIDE 
+ * step and no work happens in the COMBINE step.
  *
- * QS is a recursive algorithm that uses the Divide and Conquer strategy to break down the main
- * problem into sub-problems. The sub-problems are recursively solved and their solutions are added
- * up to produce the full solution to the problem. "Because divide-and-conquer creates at least two
- * subproblems, a divide-and-conquer algorithm makes multiple recursive calls." [1] In QS, all the
- * work happens in the DIVIDE step and no work happens in the COMBINE step.
- *
+ * 
  * ANALYSIS
  *
- * In QS, the starting array is broken up into two sub-arrays, and their values are lightly sorted.
- * Each of these sub-arrays are further split up into sub-arrays by recursively calling the
- * quickSort() method. These sub-arrays will have their values sorted again and again until the
- * sub-arrays are so small that
+ * Quicksort begins by breaking up the starting array into two sub-arrays. Quicksort does
+ * a pass over the sub-array's, lightly sorting its contents. After the first pass, each 
+ * of these sub-arrays are further split up into more sub-arrays by recursively calling 
+ * the quickSort() method. The Quicksort algorithm will continue to divide sub-arrays 
+ * into smaller sub-arrays and sorting their values again and again until the sub-arrays 
+ * are so small that they have only one element left.
  *
  * Stage 1: Split Up the Problem Into Sub-problems
  *
- * To split up the array, first select the PIVOT value. The pivot value can be any in the array, but
- * usually, a value in the middle or at one end of the array is chosen to be the pivot. With the
- * pivot selected, the values of the array can be partitioned, which is to say, they can sorted in
- * an order relative to the pivot value. Values that are LESS THAN OR EQUAL TO THE PIVOT are moved
- * to the LEFT of the array and values that are GREATER THAN THE PIVOT are moved to the RIGHT of the
- * pivot. The relative order between elements is not important at this stage, only the weight of
- * each value relative to the pivot. When all elements have been moved to the correct side of the
- * pivot, the array is said to have been partitioned.
+ * To split up the array as described above, you need to choose a PIVOT value. The pivot 
+ * value can be any in the array, but usually, a value in the middle or at one end of the 
+ * array is chosen to be the pivot. With the pivot selected, the values of the array can 
+ * be partitioned, which is to say, they can sorted in an order relative to the pivot 
+ * value. 
+ * 
+ * Values that are LESS THAN OR EQUAL TO THE PIVOT are moved to the LEFT side of the 
+ * array and values that are GREATER THAN THE PIVOT are moved to the RIGHT of the pivot. 
+ * The relative order between elements is not important at this stage, only the weight of 
+ * each value relative to the pivot. When all elements have been moved to the correct 
+ * side of the pivot, the array is said to have been partitioned.
  *
  *
- * "In practice, quicksort outperforms merge sort, and it significantly outperforms selection sort and
- * insertion sort." [2]
+ * "In practice, quicksort outperforms merge sort, and it significantly outperforms 
+ * selection sort and insertion sort."[2]
  *
  *
  * SOURCES
@@ -38,6 +45,7 @@
  * 2. Overview of Quicksort: https://www.khanacademy.org/computing/computer-science/algorithms/quick-sort/a/overview-of-quicksort
  *
  */
+
 
 package com.jvarghe;
 
