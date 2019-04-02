@@ -110,6 +110,7 @@
 
 
 package com.jvarghe;
+
 import java.util.Arrays;
 
 
@@ -117,13 +118,23 @@ public class Main
 {
     public static void main(String[] args) 
     {
+        // This is the sample array: 
         int[] array = { 73, 20, -12, 83, 292, -3891, 92384, 85, 0, 83 };
+        
+        // Create a QuickSort_Integers object.
+        QuickSort_Integers qs = new QuickSort_Integers();
 
+        // Print out the unsorted array first:
+        System.out.println("This is the UNSORTED array:");
+        System.out.println(Arrays.toString(array));
+        System.out.println();
+        
+        // Sort the array.
+        qs.execute(array);
 
-        QuickSort qs = new QuickSort();
-        int[] A = {9, 0, 1, 3, 4, 5, 2, 9, 8, 7, 6, 5, 9, 1, 0, 9};
-        System.out.println(Arrays.toString(A));
-        qs.quickSort(A);
-        System.out.println(Arrays.toString(A));
+        // Print out the sorted array.
+        System.out.println("This is the SORTED array:");
+        System.out.println(Arrays.toString(array));
+        System.out.println();
     }
 }
