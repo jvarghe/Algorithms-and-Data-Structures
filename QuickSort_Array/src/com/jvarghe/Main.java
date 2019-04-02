@@ -104,17 +104,26 @@
  * 1. https://en.wikipedia.org/wiki/Divide-and-conquer_algorithm
  * 2. Divide and Conquer Algorithms: https://www.khanacademy.org/computing/computer-science/algorithms/merge-sort/a/divide-and-conquer-algorithms
  * 3. Overview of Quicksort: https://www.khanacademy.org/computing/computer-science/algorithms/quick-sort/a/overview-of-quicksort
+ * 4. Joe James Youtube Channel: https://www.youtube.com/user/joejamesusa
+ * 5. Joe James GitHub: https://github.com/joeyajames/Java
  */
 
 
 package com.jvarghe;
+import java.util.Arrays;
+
 
 public class Main
 {
     public static void main(String[] args) 
     {
         int[] array = { 73, 20, -12, 83, 292, -3891, 92384, 85, 0, 83 };
-        
-        
+
+
+        QuickSort qs = new QuickSort();
+        int[] A = {9, 0, 1, 3, 4, 5, 2, 9, 8, 7, 6, 5, 9, 1, 0, 9};
+        System.out.println(Arrays.toString(A));
+        qs.quickSort(A);
+        System.out.println(Arrays.toString(A));
     }
 }
