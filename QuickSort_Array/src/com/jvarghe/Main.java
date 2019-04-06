@@ -56,30 +56,55 @@
  * Quick Sort is a sorting algorithm. Provided that two elements (of the same type) can 
  * be compared, Quick Sort will compare them and organize them in some order, such as
  * ascending or descending order, alphabetical order etc. 
+ *
+ * Between Divide-and-Conquer and Recursion, Quick Sort is a complicated algorithm, so I
+ * will walk through it step by step. 
  * 
- * Here's the array used in this example:
- * 
- * 
- *                              0   1   2   3   4   5   6   7
- *                            +---+---+---+---+---+---+---+---+
- *                            | 7 | 2 | 5 | 6 | 8 | 1 | 3 | 4 |
- *                            +---+---+---+---+---+---+---+---+
+ * When you call Quick Sort on an array, it calls several private methods:
  * 
  * 
- * Quick Sort will iterate over this array multiple times, cutting it up into smaller and
+ *     1. quickSort(int[] array): This is the only public method in the QuickSort_Integers
+ *        class. It receives an array which it passes on to quickSort() method.
+ * 
+ *     2. quickSort(int[] array, int low, int high): This method is in charge of creating
+ *        
+ *     3. private int getPivot(int low, int high):
+ *     4. private int partition(int[] array, int low, int high):
+ *     5. private void swap(int[] array, int index1, int index2)
+ * 
+ * 
+ * Quick Sort will iterate over this array multiple times, sorting its elements. On the
+ * first iteration, it will sort the entire array. After the first iteration, it will 
+ * divide the array into two or more segments. Following this step, Quick Sort will sort 
+ * each sub-array of the array. Quick Sort will enter into a cycle of creating smaller 
+ * sub-arrays and sorting them. Array segments will become smaller and smaller until they 
+ * have less than two elements. 
+ * 
+ * You need at least two elements in a sub-array in order to sort it, so once sub-arrays 
+ * reach this size, there is no point is further dividing them. Quick Sort will complete
+ * 
+ *  cutting it up into smaller and
  * smaller segments. Each time, the algorithm will sort the elements, bringing it closer
  * to a fully sorted state. 
  *
  * 
  * 3.2 THE FIRST ITERATION: INTRODUCING PIVOTS & ARRAY BORDER TRACKING VARIABLES
  * 
+ * Here's the array that will be used in this example:
+ *
+ *
+ *                              0   1   2   3   4   5   6   7
+ *                            +---+---+---+---+---+---+---+---+
+ *                            | 7 | 2 | 5 | 6 | 8 | 1 | 3 | 4 |
+ *                            +---+---+---+---+---+---+---+---+
+ * 
  * To sort elements, Quick Sort needs something called a PIVOT. A pivot is an element 
  * chosen from the array. It can be any element, though some choices are more efficient 
  * than others. During sorting, other elements from the array will be compared to the 
- * pivot's value. If an element's value is LESS than the pivot, it will be moved to a 
- * position to the LEFT of the pivot. If the element value is GREATER than the pivot, 
- * it will be moved to an index position to the RIGHT of the pivot. This is the main 
- * sorting process in Quick Sort. 
+ * pivot's value. If an element's value is LESS THAN OR EQUAL TO the pivot, it will be 
+ * moved to a position to the LEFT of the pivot. If the element value is GREATER than 
+ * the pivot, it will be moved to an index position to the RIGHT of the pivot. This is 
+ * the main sorting process in Quick Sort. 
  * 
  * In addition to a pivot, the Quick Sort algorithm will need two variables to track the
  * sort space: LEFT BORDER and RIGHT BORDER. These two values are references to indices
@@ -97,7 +122,7 @@
  * fully sorted order. 
  * 
  * Let's select a pivot in this array: the last element (element 4 at index 7). Now 
- * let's execute one Quick Sort iteration on this array and see what happens. Note that
+ * let's quickSort one Quick Sort iteration on this array and see what happens. Note that
  * the algorithm will be trying to sort elements in ascending order. 
  * 
  * 
@@ -216,7 +241,7 @@
  * QUICK SORT PERFORMANCE OPTIMIZATION: PIVOT SELECTION
  * 
  * Quick Sort's performance depends largely on Pivot selection. A well-selected pivot
- * will let the algorithm execute in logarithmic time, but a poor choice for a pivot may
+ * will let the algorithm quickSort in logarithmic time, but a poor choice for a pivot may
  * result in exponential time. How do you select a pivot? The common choices for a pivot
  * are the first, last and middle elements in an array. Under certain circumstances,
  * choosing the first or last elements as a pivot could result in worst case performance.
@@ -226,8 +251,6 @@
  * the first, last and middle items to calculate the median element.). However, for large
  * lists, randomly chosen pivots ensure O(n log n) time complexity.
  * 
- * Between Divide-and-Conquer and Recursion, Quick Sort is a complicated algorithm, so I 
- * will walk through it step by step. 
  * 
  *     STEP 1:        { 73, -12, 83, 292, -3891, 92384, 83 };
  * 
@@ -242,7 +265,7 @@
  * itself over and over to break these sub-problems into yet smaller sub-problems. Once
  * the sub-problems have been broken down into their smallest possible size, the process
  * of solving them starts. Starting with the newest and smallest sub-problems and working
- * back to the biggest sub-problems, Quick Sort begins to execute the sorting phase of
+ * back to the biggest sub-problems, Quick Sort begins to quickSort the sorting phase of
  * the algorithm.
  *
  * Quicksort begins by breaking up the starting array into two sub-arrays. Quicksort does
@@ -266,7 +289,7 @@
  * each value relative to the pivot. When all elements have been moved to the correct 
  * side of the pivot, the array is said to have been partitioned.
  *
- * "In practice, quicksort outperforms merge sort, and it significantly outperforms
+ * "In practice, quickSort outperforms merge sort, and it significantly outperforms
  * selection sort and insertion sort."[3]  Quick Sort can sort a data set in O(n log n)
  * time in the average case (logarithmic time) and O(n^2) in the worst case scenario
  * (exponential time). 
@@ -304,7 +327,7 @@ public class Main
         System.out.println();
         
         // Sort the array.
-        qs.execute(array);
+        qs.quickSort(array);
 
         // Print out the sorted array.
         System.out.println("This is the SORTED array:");

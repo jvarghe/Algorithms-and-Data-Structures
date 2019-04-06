@@ -8,16 +8,16 @@ import java.util.Random;
 public class QuickSort_Integers 
 {
     // This is the method that begins the Quick Sort algorithm.
-    public void execute(int[] array) 
+    public void quickSort(int[] array) 
     {
         // Calling the Quick Sort method and passing in the array, with the first and 
         // last indices of the starting array. 
-        quickSort(array, 0, array.length - 1);
+        segmentArray(array, 0, array.length - 1);
     }
     
 
-    // 
-    private void quickSort(int[] array, int low, int high)
+    // This method divides arrays and sub-arrays into smaller sub-arrays. 
+    private void segmentArray(int[] array, int low, int high)
     {
         // If the distance between the low and high indices is greater than 1, then it
         // means that the given (sub-)array has more than one element in it, which makes
@@ -27,11 +27,11 @@ public class QuickSort_Integers
             // Generate a new pivot by calling the partition method... 
             int pivot = partition(array, low, high);
             
-            // ...and then, recursively call quickSort( on the LEFT partition.
-            quickSort(array, low, pivot - 1);
+            // ...and then, recursively call segmentArray( on the LEFT partition.
+            segmentArray(array, low, pivot - 1);
             
-            // ...and then, recursively call quickSort() on the RIGHT partition.
-            quickSort(array, pivot + 1, high);
+            // ...and then, recursively call segmentArray() on the RIGHT partition.
+            segmentArray(array, pivot + 1, high);
         }
     }
     
