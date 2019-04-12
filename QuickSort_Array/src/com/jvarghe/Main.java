@@ -63,10 +63,17 @@
  * When you call Quick Sort on an array, it calls several private methods:
  * 
  * 
- *     1. quickSort(int[] array): This is the only public method in the QuickSort_Integers
- *        class. It receives an array which it passes on to quickSort() method.
+ *     1. sortByAscendingOrder(int[] array) : This is the only public method in the 
+ *        QuickSort_Integers class. It receives an array which it passes on to 
+ *        segmentArray() method, along with its first and last indices. 
  * 
- *     2. quickSort(int[] array, int low, int high): This method is in charge of creating
+ *     2. segmentArray(int[] array, int low, int high): This method is in charge of 
+ *        creating and tracking new sub-arrays. segmentArray() does this by recursively 
+ *        calling itself, 
+ * 
+ * Note that sortByAscendingOrder does not create and
+ *        populate new arrays; it just uses pointers to refer to the boundaries of 
+ *        sub-arrays. 
  *        
  *     3. private int getPivot(int low, int high):
  *     4. private int partition(int[] array, int low, int high):
@@ -122,7 +129,7 @@
  * fully sorted order. 
  * 
  * Let's select a pivot in this array: the last element (element 4 at index 7). Now 
- * let's quickSort one Quick Sort iteration on this array and see what happens. Note that
+ * let's sortByAscendingOrder one Quick Sort iteration on this array and see what happens. Note that
  * the algorithm will be trying to sort elements in ascending order. 
  * 
  * 
@@ -241,7 +248,7 @@
  * QUICK SORT PERFORMANCE OPTIMIZATION: PIVOT SELECTION
  * 
  * Quick Sort's performance depends largely on Pivot selection. A well-selected pivot
- * will let the algorithm quickSort in logarithmic time, but a poor choice for a pivot may
+ * will let the algorithm sortByAscendingOrder in logarithmic time, but a poor choice for a pivot may
  * result in exponential time. How do you select a pivot? The common choices for a pivot
  * are the first, last and middle elements in an array. Under certain circumstances,
  * choosing the first or last elements as a pivot could result in worst case performance.
@@ -265,13 +272,13 @@
  * itself over and over to break these sub-problems into yet smaller sub-problems. Once
  * the sub-problems have been broken down into their smallest possible size, the process
  * of solving them starts. Starting with the newest and smallest sub-problems and working
- * back to the biggest sub-problems, Quick Sort begins to quickSort the sorting phase of
+ * back to the biggest sub-problems, Quick Sort begins to sortByAscendingOrder the sorting phase of
  * the algorithm.
  *
  * Quicksort begins by breaking up the starting array into two sub-arrays. Quicksort does
  * a pass over the sub-array's, lightly sorting its contents. After the first pass, each 
  * of these sub-arrays are further split up into more sub-arrays by recursively calling 
- * the quickSort() method. The Quicksort algorithm will continue to divide sub-arrays 
+ * the sortByAscendingOrder() method. The Quicksort algorithm will continue to divide sub-arrays 
  * into smaller sub-arrays and sorting their values again and again until the sub-arrays 
  * are so small that they have only one element left.
  *
@@ -289,7 +296,7 @@
  * each value relative to the pivot. When all elements have been moved to the correct 
  * side of the pivot, the array is said to have been partitioned.
  *
- * "In practice, quickSort outperforms merge sort, and it significantly outperforms
+ * "In practice, sortByAscendingOrder outperforms merge sort, and it significantly outperforms
  * selection sort and insertion sort."[3]  Quick Sort can sort a data set in O(n log n)
  * time in the average case (logarithmic time) and O(n^2) in the worst case scenario
  * (exponential time). 
@@ -327,7 +334,7 @@ public class Main
         System.out.println();
         
         // Sort the array.
-        qs.quickSort(array);
+        qs.sortByAscendingOrder(array);
 
         // Print out the sorted array.
         System.out.println("This is the SORTED array:");

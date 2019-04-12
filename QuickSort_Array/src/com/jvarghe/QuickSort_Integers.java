@@ -8,7 +8,7 @@ import java.util.Random;
 public class QuickSort_Integers 
 {
     // This is the method that begins the Quick Sort algorithm.
-    public void quickSort(int[] array) 
+    public void sortByAscendingOrder(int[] array) 
     {
         // Calling the Quick Sort method and passing in the array, with the first and 
         // last indices of the starting array. 
@@ -16,12 +16,19 @@ public class QuickSort_Integers
     }
     
 
-    // This method divides arrays and sub-arrays into smaller sub-arrays. 
+    // This method recursively calls itself over and over. The first thing it does is to
+    // call the partition() method on the array to sort it. The partition() method will
+    // return a new pivot for the array. 
+    // 
+    // dividing arrays into sub-arrays, and 
+    // sub-arrays into smaller sub-arrays. This division of the array into segments 
+    // continues until sub-arrays have only one element left. 
     private void segmentArray(int[] array, int low, int high)
     {
-        // If the distance between the low and high indices is greater than 1, then it
-        // means that the given (sub-)array has more than one element in it, which makes
-        // sorting it necessary. 
+        // Checks if there is more than one item in the given range. This is done by 
+        // checking if the distance between the low and high indices is greater than 1. 
+        // If there are two or more elements in the given array (or sub-array), you have
+        // to sort it. 
         if (low < high+1) 
         {
             // Generate a new pivot by calling the partition method... 
@@ -34,15 +41,7 @@ public class QuickSort_Integers
             segmentArray(array, pivot + 1, high);
         }
     }
-    
 
-    // Returns a random pivot index between the low and high indices, inclusive.
-    private int getPivot(int low, int high) 
-    {
-        Random rand = new Random();
-        return rand.nextInt((high - low) + 1) + low;
-    }
-    
 
     // This method does most of the heavy lifting. When called, partition() will be given 
     // an array (or a partition) and two indices. The indices designate the range of the 
@@ -55,10 +54,11 @@ public class QuickSort_Integers
     // index.
     private int partition(int[] array, int low, int high) 
     {
-        // Call the swap method which in turn, calls the getPivot() method. getPivot() 
-        // returns a random pivot index within the designated sort space. swap() swaps
-        // this pivot value into the left most position. 
-        swap(array, low, getPivot(low, high));
+        // Call the swapElements() method which in turn, calls the getPivot() method. 
+        // Pass in index values that bookend the sort space and getPivot() will return a 
+        // random pivot index within this sort space, including the low and high indexes. 
+        // swapElements() swaps this pivot value into the left most position. 
+        swapElements(array, low, getPivot(low, high));
         
         // Create a left border value that points to the value to the right of the pivot
         // location. 
@@ -72,22 +72,57 @@ public class QuickSort_Integers
             // array[low], it will be swapped with the border value. 
             if (array[i] < array[low]) 
             {
-                swap(array, i, border++);
+                swapElements(array, i, border++);
             }
         }
         
         // When the partitioning process is complete, the final step is to swap the pivot
         // value into its proper position. 
-        swap(array, low, border-1);
+        swapElements(array, low, border-1);
         
         // The last step is to return the pivot's index. 
         return border - 1;
     }
 
 
+    // Returns a random pivot index between the low and high indices, inclusive.
+    private int getPivot(int low, int high)
+    {
+        // GENERATING RANDOM NUMBERS BETWEEN AND WITHIN A RANGE
+        //
+        // randInt() accepts an integer argument and returns a random integer between
+        // the maximum and minimum values. But why do we need this expression: 
+        // ((high - low) + 1) + low? Apparently, this is a standard formula for 
+        // generating random numbers in a range, INCLUSIVE of the high and low values: 
+        // 
+        //     (max - min) + 1) + min
+        // 
+        // What's happening here? This expression will generate a number between max and
+        // min, including max and min. (max - min) + 1) generates a number between 0 and
+        // (max - min). If you add min to this, it will result in a random integer 
+        // between min and max. 
+        // [Source: https://www.techiedelight.com/generate-random-integers-specified-range-java/]
+        // 
+        // If you want the formula for generating a random number between the given min
+        // and max values, here it is:
+        //
+        //     (max - min) + min
+        //
+        // This formula appears to EXCLUDE min and max values. 
+        // [Source: https://stackoverflow.com/a/11923174]
+        //
+        // Normally, if you just pass an integer value to nextInt(), for example the 
+        // integer 50, it will return a random number between 0 and 49. It appears that 
+        // using the first formula will return a value between 0 and 50, making it 
+        // possible that both 0 and 50 may be returned as a value. 
+        Random rand = new Random();
+        return rand.nextInt((high - low) + 1) + low;
+    }
+
+
     // This method takes an array/partition and two indices. It swaps the elements at 
     // these indices. 
-    private void swap(int[] array, int index1, int index2)
+    private void swapElements(int[] array, int index1, int index2)
     {
         int temp = array[index1];
         array[index1] = array[index2];
