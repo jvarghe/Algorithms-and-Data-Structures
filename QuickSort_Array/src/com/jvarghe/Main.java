@@ -7,8 +7,7 @@
  * avoid the theoretical worst case scenario. If you can (mostly) constrain Quick Sort's 
  * time complexity performance to logarithmic levels, Quick Sort becomes one of the most 
  * practical sorting algorithms. In fact, most language libraries use Quick Sort to power
- * the standard sorting method. Note that Quick Sort is very efficient at sorting large 
- * data sets. 
+ * the standard sorting method. Quick Sort is very efficient at sorting large data sets. 
  *
  * 
  * 2. DIVIDE-AND-CONQUER STRATEGY
@@ -37,25 +36,29 @@
  * even smaller fragments. At this point, the big problem has been reapportioned into 
  * numerous sub-problems. 
  * 
- * Moving on to the Conquer phase, recall that each chunk of the problem has the same 
- * solution as the original, larger problem. During the second phase, the algorithm is 
- * applied to each fragment of the original problem. By applying the same process to each 
- * chunk of the main problem, one by one, you can solve the problem with all the chunks. 
- * This leaves you multiple pieces of the original data set, each of which has had their 
- * problem resolved. 
+ * In the Conquer phase, we will attempt to solve the problem by applying an algorithm
+ * to the sub-problems. Recall that each sub-problem can be solved in the same way as 
+ * the larger, main problem. This means that the same algorithm will work on both the
+ * main problem and the sub-problems. The algorithm itself will be written in one or 
+ * more methods. Therefore, during this phase, the algorithm will call itself over and 
+ * over and assign each method call a sub-problem. This is called recursion. By applying 
+ * the same algorithm to each fragment of the main problem, one by one, you can solve 
+ * the problem with all the sub-problems. This leaves you many fragments of the original 
+ * data set, each of which has had their problem resolved. 
  * 
  * This takes us to the last phase of the Divide-and-Conquer strategy: Combine. In this 
  * phase, the separated parts of the data set are combined to form the whole again. As 
- * each chunk is in a "correct" state, the newly combined whole should also have had its 
- * problem resolved, provided that you put the chunks back together in the correct 
+ * each fragment is in a "correct" state, the newly combined whole should also have had 
+ * its problem resolved, provided that you put the chunks back together in the correct 
  * sequence.
  * 
  * 
  * 3.1 QUICK SORT: THE ALGORITHM
  * 
- * Quick Sort is a sorting algorithm. Provided that two elements (of the same type) can 
- * be compared, Quick Sort will compare them and organize them in some order, such as
- * ascending or descending order, alphabetical order etc. 
+ * Quick Sort is a sorting algorithm. Provided that two elements can be compared (they 
+ * must be of the same type or otherwise similar enough to be comparable), Quick Sort 
+ * will compare them and organize them in some order, such as ascending or descending 
+ * order, alphabetical order etc. 
  *
  * Between Divide-and-Conquer and Recursion, Quick Sort is a complicated algorithm, so I
  * will walk through it step by step. 
@@ -65,18 +68,45 @@
  * 
  *     1. sortByAscendingOrder(int[] array) : This is the only public method in the 
  *        QuickSort_Integers class. It receives an array which it passes on to 
- *        segmentArray() method, along with its first and last indices. 
+ *        quickSort() method, along with its first and last indices. 
  * 
- *     2. segmentArray(int[] array, int low, int high): This method is in charge of 
- *        creating and tracking new sub-arrays. segmentArray() does this by recursively 
- *        calling itself, 
+ *     2. quickSort(int[] array, int leftBorder, int rightBorder): This method breaks up 
+ *        the array into smaller fragments and sends them out to other methods for 
+ *        sorting. It does this by recursively calling itself. Note that quickSort() does 
+ *        not create and populate new arrays with fragments (sub-problems) of the 
+ *        original array. Quick Sort is an in-place algorithm that does its work by using 
+ *        pointers to track the boundaries (leftBorder and rightBorder) of the 
+ *        sub-arrays.
  * 
- * Note that sortByAscendingOrder does not create and
- *        populate new arrays; it just uses pointers to refer to the boundaries of 
- *        sub-arrays. 
+ *        First, quickSort() calls the partition() method to do a sorting pass over the 
+ *        main array. This doesn't fully sort the array, but brings it closer to a fully
+ *        sorted state. Second, it selects an element from the array to serve as a pivot.
+ *        This element's value will be used to sort all other elements. There is some
+ *        complexity to selecting a pivot, especially if you want to optimize the 
+ *        algorithm's performance on larger collections (arrays), but that will be 
+ *        discussed later. 
+ * 
+ *        Third, quickSort() will recursively call itself, at each turn breaking up the 
+ *        array into separate fragments (sub-arrays). For instance, after selecting a 
+ *        pivot for the main array, quickSort() will break up the array into two 
+ *        sub-arrays: the left partition, which will located to the left of the pivot 
+ *        and the right partition, located to the right of the pivot. 
+ * 
+ *        After breaking up the main array into sub-arrays, quickSort() will repeat the 
+ *        process by calling itself again. It will run a second sorting pass on each 
+ *        sub-array. Following this, the algorithm will track the borders of the new 
+ *        sub-arrays and identify a new pivot for each fragment. 
+ * 
+ *        quickSort() will call itself again on both of these sub-arrays, dividing them 
+ *        into four fragments. This recursive process of creating new sub-arrays and 
+ *        sorting them will continue until the main array has been broken down into a 
+ *        collection of sub-arrays, each of which contain only two elements. Why? Because 
+ *        a two-element sub-array is the smallest a sub-array can get and still be 
+ *        sorted; a sub-array with only one element can't be sorted because you need at 
+ *        least two elements to do that. 
  *        
- *     3. private int getPivot(int low, int high):
- *     4. private int partition(int[] array, int low, int high):
+ *     3. private int partition(int[] array, int low, int high): this 
+ *     4. private int getPivot(int low, int high): 
  *     5. private void swap(int[] array, int index1, int index2)
  * 
  * 
@@ -309,7 +339,7 @@
  * 2. Divide and Conquer Algorithms: https://www.khanacademy.org/computing/computer-science/algorithms/merge-sort/a/divide-and-conquer-algorithms
  * 3. Overview of Quicksort: https://www.khanacademy.org/computing/computer-science/algorithms/quick-sort/a/overview-of-quicksort
  * 4. Joe James Youtube Channel: https://www.youtube.com/user/joejamesusa
- * 5. Joe James GitHub: https://github.com/joeyajames/Java
+ * 5. Code2Bits GitHub Repo for Quick Sort: https://github.com/Code2Bits/Algorithms-in-Java/blob/master/sort/src/main/java/com/code2bits/algorithm/sort/QuickSort.java
  */
 
 
