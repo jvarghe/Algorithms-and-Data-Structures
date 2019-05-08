@@ -35,7 +35,15 @@ public class Main
         System.out.println();
         
         // Sort the array.
-        qsObject.sortByAscendingOrder(array);
+        try
+        {
+            qsObject.sortByAscendingOrder(array);
+        }
+        catch (IllegalArgumentException exceptionObject)
+        {
+            System.out.println(exceptionObject.getMessage());
+        }
+        
 
         // Print out the sorted array.
         System.out.println("This is the SORTED array:");
