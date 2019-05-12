@@ -1,4 +1,4 @@
-2. DIVIDE-AND-CONQUER STRATEGY
+1. DIVIDE-AND-CONQUER STRATEGY
 
 Quick Sort is a recursive algorithm that uses the Divide-and-Conquer strategy. 
 Here is Wikipedia's explanation[1]:
@@ -41,80 +41,79 @@ its problem resolved, provided that you put the chunks back together in the corr
 sequence.
 
 
-3.1 QUICK SORT: THE ALGORITHM
+2.1 QUICK SORT: AN OVERVIEW OF THE ALGORITHM
 
 Quick Sort is a sorting algorithm. Provided that two elements can be compared (they 
 must be of the same type or otherwise similar enough to be comparable), Quick Sort 
 will compare them and organize them in some order, such as ascending or descending 
 order, alphabetical order etc. 
 
-Between Divide-and-Conquer and Recursion, Quick Sort is a complicated algorithm, so I
-will walk through it step by step. 
+Between Divide-and-Conquer and Recursion, Quick Sort is a complicated algorithm, which
+requires a chain of several methods to be called. In this section, I'll provide an 
+overview what each method is doing. 
 
-When you call Quick Sort on an array, it calls several private methods:
+To sort an array using Quick Sort, you call sortByAscendingOrder(). This is the only
+public method in the class. It calls partition(), which calls several other private 
+methods:
 
 
     1. sortByAscendingOrder(int[] array) : This is the only public method in the 
-       QuickSort_Integers class. It receives an array which it passes on to 
-       quickSort() method, along with its first and last indices. 
-
-    2. quickSort(int[] array, int leftBorder, int rightBorder): This method breaks up 
-       the array into smaller fragments and sends them out to other methods for 
-       sorting. It does this by recursively calling itself. Note that quickSort() does 
-       not create and populate new arrays with fragments (sub-problems) of the 
-       original array. Quick Sort is an in-place algorithm that does its work by using 
-       pointers to track the boundaries (leftBorder and rightBorder) of the 
-       sub-arrays.
-
-       First, quickSort() calls the partition() method to do a sorting pass over the 
-       main array. This doesn't fully sort the array, but brings it closer to a fully
-       sorted state. Second, it selects an element from the array to serve as a pivot.
-       This element's value will be used to sort all other elements. There is some
-       complexity to selecting a pivot, especially if you want to optimize the 
-       algorithm's performance on larger collections (arrays), but that will be 
-       discussed later. 
-
-       Third, quickSort() will recursively call itself, at each turn breaking up the 
-       array into separate fragments (sub-arrays). For instance, after selecting a 
-       pivot for the main array, quickSort() will break up the array into two 
-       sub-arrays: the left partition, which will located to the left of the pivot 
-       and the right partition, located to the right of the pivot. 
-
-       After breaking up the main array into sub-arrays, quickSort() will repeat the 
-       process by calling itself again. It will run a second sorting pass on each 
-       sub-array. Following this, the algorithm will track the borders of the new 
-       sub-arrays and identify a new pivot for each fragment. 
-
-       quickSort() will call itself again on both of these sub-arrays, dividing them 
-       into four fragments. This recursive process of creating new sub-arrays and 
-       sorting them will continue until the main array has been broken down into a 
-       collection of sub-arrays, each of which contain only two elements. Why? Because 
-       a two-element sub-array is the smallest a sub-array can get and still be 
-       sorted; a sub-array with only one element can't be sorted because you need at 
-       least two elements to do that. 
+       QuickSort_Integers class. It receives an array which it tests for quality.
+       If the array passes muster, it gets sent on to the quickSort() method, along 
+       with its first and last indices. 
        
-    3. private int partition(int[] array, int low, int high): this 
-    4. private int getPivot(int low, int high): 
-    5. private void swap(int[] array, int index1, int index2)
 
+    2. quickSort(int[] array, int nextSwapIndex, int currentIndex): This method first 
+       sends the array off to the partition() method to get partitioned (Conquer Phase: 
+       Apply a partitioning algorithm to separate elements into two partitions.). 
+       
+       Following this step, quickSort() takes the partitioned array and formally 
+       demarcates the two partitions, without creating new arrays. This let quickSort()
+       treat each new partition as a new array (Divide Phase: Break up the problem into
+       multiple sub-problems.). Which is what happens next: quickSort() recursively 
+       calls itself on both new sub-arrays.
+        
+       This results in another round of partitioning for each sub-array, followed by 
+       sub-array division. At this point you have four partitions in the array. This 
+       recursive process of creating new sub-arrays and partitioning them will continue 
+       until the main array has been broken down into a collection of sub-arrays, each 
+       of which contain only two elements. Why? Because a two-element sub-array is the 
+       smallest a sub-array can get and still be partitioned.
+       
+       Question: Where is the Combine phase? Does it not exist because all the work is 
+       being done in-place within the original array?
+       
+       
+    3. private int partition(int[] array, int low, int high): This method is part of the
+       Conquer phase because it applies an algorithm to the problem. partition() selects 
+       a pivot element, which is the element by which all other elements are measured 
+       during partitioning.
+       
+       In the array or sub-array, elements less than the pivot are moved to indices 
+       before the pivot, while elements greater than the pivot are moved to indices after
+       it. This creates two partitions in the array/sub-array, with the pivot serving as
+       the boundary between partitions. 
+       
+       When partition() ends, it returns the index of the new pivot. 
+        
+       
+    4. private int getPivot(int low, int high): partition() calls this method to select a
+       pivot for the the array or sub-array it is currently working on. This program
+       randomly selects pivots, but if you want to optimize for performance, use an 
+       algorithm called 'Median of Three Elements'.
+    
+    
+    5. private void swap(int[] array, int index1, int index2): partition() calls this 
+       method to swap elements around during partitioning. 
+       
 
-Quick Sort will iterate over this array multiple times, sorting its elements. On the
-first iteration, it will sort the entire array. After the first iteration, it will 
-divide the array into two or more segments. Following this step, Quick Sort will sort 
-each sub-array of the array. Quick Sort will enter into a cycle of creating smaller 
-sub-arrays and sorting them. Array segments will become smaller and smaller until they 
-have less than two elements. 
+2.2.1 PARTITIONING: THE FIRST ITERATION [CONQUER PHASE]
 
-You need at least two elements in a sub-array in order to sort it, so once sub-arrays 
-reach this size, there is no point is further dividing them. Quick Sort will complete
-
- cutting it up into smaller and
-smaller segments. Each time, the algorithm will sort the elements, bringing it closer
-to a fully sorted state. 
-
-
-3.2 THE FIRST ITERATION: INTRODUCING PIVOTS & ARRAY BORDER TRACKING VARIABLES
-
+We're starting with the first time that quickSort() invokes partition() and gives it an
+array to partition. This might be confusing: Why are we starting here? Well, nothing
+too complicated has happened before this step. Partitioning is the most complex part of 
+the QuickSort algorithm. Let's take a deeper look at it.
+ 
 Here's the array that will be used in this example:
 
 
@@ -123,209 +122,303 @@ Here's the array that will be used in this example:
                            | 7 | 2 | 5 | 6 | 8 | 1 | 3 | 4 |
                            +---+---+---+---+---+---+---+---+
 
-To sort elements, Quick Sort needs something called a PIVOT. A pivot is an element 
+
+The goal of partitioning is to examine all elements in the array or sub-array and
+winnow them them into one of two buckets. To partition an array, you need to track 
+three variables: the Pivot, currentIndex and nextSwapIndex.
+ 
+First, the pivot. Quick Sort needs something called a PIVOT. A pivot is an element 
 chosen from the array. It can be any element, though some choices are more efficient 
 than others. During sorting, other elements from the array will be compared to the 
 pivot's value. If an element's value is LESS THAN OR EQUAL TO the pivot, it will be 
-moved to a position to the LEFT of the pivot. If the element value is GREATER than 
-the pivot, it will be moved to an index position to the RIGHT of the pivot. This is 
-the main sorting process in Quick Sort. 
+moved to an index to the LEFT of the pivot. If the element value is GREATER than 
+the pivot, it will be moved to an index position to the RIGHT of the pivot. 
 
 In addition to a pivot, the Quick Sort algorithm will need two variables to track the
-sort space: LEFT BORDER and RIGHT BORDER. These two values are references to indices
-that delimit the sort space. leftBorder starts at left most element in the sort space,
-and rightBorder starts at the right most element. Note that if the pivot is the first
-or last element in the sort space, they are ignored. The left/right border value will
-bypass the pivot and move inwards by one. The border variables start at ends of the
-sort space and move towards each other until they meet. 
+elements being compared and swapped. currentIndex tracks the variable that is presently
+being compared to the pivot element. nextSwapIndex tracks the next index available for
+swapping in an element found to be less than the pivot. 
 
-When you call the sort method on an array, QuickSort will select a pivot, and go 
-through the array, comparing elements to the pivot. By the end of the first pass
-through the array, Quick Sort will have moved elements to the left or right of the 
-pivot, based on their value relative to the pivot. Note that the sorting process is 
-not complete after a single iteration, though the elements are closer to being in 
-fully sorted order. 
+When the partition() method runs, it will select a pivot, and go through the array, 
+comparing elements to the pivot. By the end of its first and only iteration through 
+the array, the method will have moved elements to the left or right of the pivot, 
+based on their value relative to the pivot. Note that the sorting process is not 
+complete after a single iteration, though the elements are closer to being in fully 
+sorted order. 
 
 Let's select a pivot in this array: the last element (element 4 at index 7). Now 
-let's sortByAscendingOrder one Quick Sort iteration on this array and see what happens. 
-Note that the algorithm will be trying to sort elements in ascending order. 
+let's go through every step of partitioning this array and see what happens. Note 
+that the algorithm will be trying to sort elements in ascending order. 
 
 
-    STEP 1:                  0   1   2   3   4   5   6   7
+    STEP 1:             currentIndex
+                             v
+                             0   1   2   3   4   5   6   7
+                           +---+---+---+---+---+---+---+---+
+                           | 7 | 2 | 5 | 6 | 8 | 1 | 3 | 4 |
+                            +---+---+---+---+---+---+---+---+
+                             ^                           ^
+                          nextSwapIndex                PIVOT
+
+
+Both currentIndex and nextSwapIndex start by pointing to the first index of the 
+array/sub-array. currentIndex asks the question: "Is element 0 (7) < the pivot (4)? As 
+the answer is no, no swap will be done. 7 is larger than the pivot, and thus, it 
+should be on the right of the pivot. However, for now currentIndex will skip over it.
+
+
+    STEP 2:                 currentIndex
+                                 v
+                             0   1   2   3   4   5   6   7
                            +---+---+---+---+---+---+---+---+
                            | 7 | 2 | 5 | 6 | 8 | 1 | 3 | 4 |
                            +---+---+---+---+---+---+---+---+
-                             ^                       ^   ^
-                          LEFTBORDER        RIGHTBORDER  PIVOT
+                             ^                      
+                        nextSwapIndex    
 
 
-leftBorder asks the question: "Is element 0 (7) > the pivot (4)?" Yes. rightBorder
-asks a similar question: "Is element 6 (3) < the pivot (4)?" Yes. Since the answer to
-both questions is "Yes", the elements at these indices need to be swapped. 
+Now that currentIndex is done examining the element at index 0, it moves on to the 
+second element. No swaps have been made, so nextSwapIndex has not come into play. It
+is still pointing to the first element. 
 
-If the answer to either question is "Yes", the element needs to be swapped. If the 
-answer is "No", it is on the correct side of the pivot. 
+currentIndex asks the question: "Is element 1 (2) < the pivot (4)? Yes, so the 
+currentIndex element (2) needs to be swapped with the nextSwapIndex element (7). You can 
+see the results below: 
 
 
-    STEP 2:                  0   1   2   3   4   5   6   7
+    STEP 3:                     currentIndex
+                                     v
+                             0   1   2   3   4   5   6   7
                            +---+---+---+---+---+---+---+---+
-                           | 3 | 2 | 5 | 6 | 8 | 1 | 7 | 4 |
+                           | 2 | 7 | 5 | 6 | 8 | 1 | 3 | 4 |
                            +---+---+---+---+---+---+---+---+
-                                 ^               ^       
-                             LEFTBORDER    RIGHTBORDER
+                                 ^                    
+                            nextSwapIndex    
 
 
-Once the swap is done, the elements at indices 0 and 6 have been sorted. This shrinks
-the sort space. leftBorder and rightBorder need to be moved inwards by one index each 
-so that they point to unsorted elements. This is where the Step 2 diagram starts.
+Now that elements at indices 0 and 1 have been swapped, currentIndex moves to index 2
+and nextSwapIndex moves to index 1. Note that even though 7 had been skipped before, 
+it got pushed further down the array by the swap. 
 
-Let's compare the new elements to the pivot. Is the leftBorder element (2) > the pivot?
-No. Is the rightBorder element (1) < the pivot? Yes. Therefore, we have one element 
-that needs to be swapped (rightBorder) and one element (leftBorder) that does not. 
-What happens now? 
-
-As the leftBorder element (2) does not need to be swapped, it is on the correct side
-of the pivot. The leftBorder element will move inwards by one index. The rightBorder
-element (1) needs to be swapped, but as there is no available position on the left 
-side of the array to swap in a value, a swap is not currently possible. rightBorder 
-will remain pointing to index 5.
+Let's consider the element at index 2. "Is element 2 (5) < the pivot (4)? No. 
+currentIndex is incremented by one, but nothing else happens: 
 
 
-    STEP 3:                  0   1   2   3   4   5   6   7
+    STEP 4:                         currentIndex
+                                         v
+                             0   1   2   3   4   5   6   7
                            +---+---+---+---+---+---+---+---+
-                           | 3 | 2 | 5 | 6 | 8 | 1 | 7 | 4 |
+                           | 2 | 7 | 5 | 6 | 8 | 1 | 3 | 4 |
                            +---+---+---+---+---+---+---+---+
-                                     ^           ^       
-                               LEFTBORDER    RIGHTBORDER
+                                 ^   
+                           nextSwapIndex  
 
 
-This time, only one border variable moved inwards (leftBorder). Is the leftBorder 
-element (5) > the pivot? Yes. Is rightBorder element (1) < the pivot? Yes. Now, we
-can finally swap elements again. 
+"Is element 3 (6) < the pivot (4)? No. No swap will be done and again, the only thing 
+that happens is that currentIndex moves to the right. 
 
 
-    STEP 4:                  0   1   2   3   4   5   6   7
+    STEP 5:                             currentIndex    
+                                             v
+                             0   1   2   3   4   5   6   7
                            +---+---+---+---+---+---+---+---+
-                           | 3 | 2 | 1 | 6 | 8 | 5 | 7 | 4 |
+                           | 2 | 7 | 5 | 6 | 8 | 1 | 3 | 4 |
                            +---+---+---+---+---+---+---+---+
-                                         ^   ^
-                                 LEFTBORDER  RIGHTBORDER
+                                 ^   
+                           nextSwapIndex 
 
 
-Is leftBorder (6) > the pivot? Yes. Is rightBorder (8) < the pivot? Yes. Once again,
-we can effect a swap.
+Once again, let's consider the new element to which currentIndex is pointing. "Is 
+element 4 (8) < the pivot (4)? Nope. Let's increment currentIndex by one and go to
+the next element in the array. 
 
 
-    STEP 5:                  0   1   2   3   4   5   6   7
+    STEP 6:                                 currentIndex
+                                                 v
+                             0   1   2   3   4   5   6   7
                            +---+---+---+---+---+---+---+---+
-                           | 3 | 2 | 1 | 8 | 6 | 5 | 7 | 4 |
+                           | 2 | 7 | 5 | 6 | 8 | 1 | 3 | 4 |
                            +---+---+---+---+---+---+---+---+
-                                         ^   ^
-                                 LEFTBORDER  RIGHTBORDER
+                                 ^
+                           nextSwapIndex           
 
 
-The border pointers meet in the middle, exhausting the sort space. As the leftBorder
-element is greater than the pivot, the last thing you have to do is swap leftBorder 
-and the pivot elements, like this: 
+"Is element 5 (1) < the pivot (4)? After a string of "No"'s, we finally have a "Yes".
+Elements at indices 5 and 2 will be swapped. Both currentIndex and nextSwapIndex will be 
+incremented, moving one position to the right:
 
 
-    STEP 6:                  0   1   2   3   4   5   6   7
+    STEP 7:                                     currentIndex
+                                                     v
+                             0   1   2   3   4   5   6   7
                            +---+---+---+---+---+---+---+---+
-                           | 3 | 2 | 1 | 4 | 6 | 5 | 7 | 8 |
+                           | 2 | 1 | 5 | 6 | 8 | 7 | 3 | 4 |
+                           +---+---+---+---+---+---+---+---+
+                                     ^
+                               nextSwapIndex       
+
+
+We'll now consider the penultimate element in the list. "Is element 6 (3) < the pivot (4)? 
+Yes, so another swap is necessary. Elements at indices 6 and 2 will be swapped.
+
+As the pivot is the measuring stick, currentIndex will skip it, but nextSwapIndex will be 
+incremented by one. 
+
+
+    STEP 8:                                     currentIndex
+                                                     v
+                             0   1   2   3   4   5   6   7
+                           +---+---+---+---+---+---+---+---+
+                           | 2 | 1 | 3 | 6 | 8 | 7 | 5 | 4 |
+                           +---+---+---+---+---+---+---+---+
+                                         ^               ^ 
+                                   nextSwapIndex       Pivot
+
+
+At this point, the array has been mostly partitioned. There is only one step left:
+swapping the elements at nextSwapIndex and the Pivot. 
+
+
+    STEP 9:                                     
+                             0   1   2   3   4   5   6   7
+                           +---+---+---+---+---+---+---+---+
+                           | 2 | 1 | 3 | 4 | 8 | 7 | 5 | 6 |
                            +---+---+---+---+---+---+---+---+
                                          ^
-                                       PIVOT
+                                       Pivot
+                                       
 
-This is the end of the first iteration. As you can see, elements less than the pivot
-now live to its left, while elements larger than the pivot have been moved to its 
-right. If you compare this array to the original, you can see that the elements are 
-closer to being sorted in ascending order. 
+Now the partitioning is complete. As you can see, the elements have not been fully 
+sorted in ascending order, but elements less than the pivot now live to its left, while 
+elements larger than the pivot have been moved to its right. 
 
-
-3.3 RECURSION
-
-After the first iteration, the array has three algorithmically important segments:
-
-    1. SEGMENT OF VALUES LESS THAN THE PIVOT (LESSERSEG)
-    2. SEGMENT OF VALUES EQUAL TO AND INCLUDING THE PIVOT (EQUALSEG)
-    3. SEGMENT OF VALUES GREATER THAN THE PIVOT (GREATERSEG)
+This is the original array:
 
 
-END OF FIRST ITERATION:
+                             0   1   2   3   4   5   6   7
+                           +---+---+---+---+---+---+---+---+
+                           | 7 | 2 | 5 | 6 | 8 | 1 | 3 | 4 |
+                           +---+---+---+---+---+---+---+---+
+                           
+
+You can see that the elements in Step 9 are closer to being sorted in ascending order.
+The partition() method completed its task and will return control to the quickSort() 
+method now.
+
+One thing more: note that the pivot element (4) is now located at index 3. partition()
+will return the index of the pivot to quickSort().   
+
+
+2.2.2 ARRAY DIVISION [DIVIDE PHASE]
+
+In this section, control has returned back to quickSort(). At the end of the first 
+partitioning iteration, this is what the array looks like: 
+
+
+                             0   1   2   3   4   5   6   7
+                           +---+---+---+---+---+---+---+---+
+                           | 2 | 1 | 3 | 4 | 8 | 7 | 5 | 6 |
+                           +---+---+---+---+---+---+---+---+
+                                         ^
+                                       Pivot
+
+
+As you should have noticed, the elements are now closer to being fully sorted. Now 
+that the array has been partitioned once, it has three algorithmically important 
+segments:
+
+
+    1. PARTITION OF VALUES LESS THAN OR EQUAL TO THE PIVOT (LESSER/LEFT PARTITION)
+    2. THE PIVOT (PIVOT)
+    3. PARTITION OF VALUES GREATER THAN THE PIVOT (GREATER/RIGHT PARTITION) 
 
 
                        0   1   2        3        4   5   6   7
                      +---+---+---+    +----    ----+---+---+---+
-                     | 3 | 2 | 1 |    | 4 |    | 6 | 5 | 7 | 8 |
+                     | 2 | 1 | 3 |    | 4 |    | 8 | 7 | 5 | 6 |
                      +---+---+---+    +----    ----+---+---+---+
 
-                       LESSERSEG     EQUALSEG      GREATERSEG
+                    LEFT PARTITION    PIVOT     RIGHT PARTITION
 
 
+Remember that we are trying to sort this array's elements in ascending order. The 
+Pivot element appears to be in its correct final position. However, most of the 
+elements of the Lesser and Greater partitions are not in the correct position. To 
+sort these elements into the correct position, we have to partition them again.
 
-QUICK SORT PERFORMANCE OPTIMIZATION: PIVOT SELECTION
+This brings us to the topics of array division and recursion. First, let's talk about
+array division. At this point, it is important to note that Quick Sort is an in-place 
+algorithm. This is an algorithm in which the data that is being operated on does not 
+leave its data structure. This means that no new arrays are created. In Quick Sort, 
+array division is done by formally tracking the boundaries of the left and right 
+partitions, so that you can treat them as separate arrays. As these partitions are 
+parts of the original array, they are often referred to as sub-arrays.
+
+In the diagram above, we have already designated a left and right partition. After 
+partitioning, this is exactly what quickSort() does next: create sub-arrays and send
+them off to be partitioned again. 
+
+
+2.2.3 RECURSION [REPEATING PARTITIONING & ARRAY DIVISION]
+
+I've talked about two of the processes used to sort the array, partitioning and array
+division. Quick Sort relies on a third process: the repetition of these processes. When 
+these two processes are repeated over and over, the elements get sorted into the desired 
+order. 
+
+As the quickSort() method is directly or indirectly responsible for executing both 
+processes, the most common way to repeat these processes is to use something called
+recursion. Recursion is a process where a method calls itself repeatedly. In this 
+algorithm, the quickSort() method will recursively call itself over and over in order 
+to repeat the processes of partitioning and array division. 
+
+In the first partitioning iteration, the main array was partitioned and divided into 
+two sub-arrays. Using recursion means calling the quickSort() on both the left and 
+right sub-arrays. This should result in the main array being partitioned again and 
+divided into four sub-arrays, followed by another set of recursive calls to quickSort().
+
+Once the recursive process begins, quickSort() will continue to invoke itself on new
+sub-arrays, partition them and create smaller sub-arrays until the base case is 
+triggered. Recursive methods have two cases, a base case and a recursive case. The 
+recursive case defines the conditions that allow recursion to continue. The base case
+defines the condition that terminates recursion. The latter is particularly important
+due to the fact that a recursive method without a base case will continue to execute
+forever until it consumes all available resources and crashes the computer.
+
+quickSort()'s base case is triggered when there is one or fewer elements in a sub-array.
+This is because partitioning and array division require at least two elements. You 
+cannot order an array with only one element. You certainly will not have enough elements 
+to partition the array. When the base case is triggered, recursion ends in that 
+particular recursive branch. Sooner or later, all branches of recursion will reach a 
+point where they can no longer be sub-divided.  
+
+At this point, the three processes, namely partitioning, array division and recursion, 
+should have worked their magic - all elements in the array should now be in their 
+correct, final positions. These processes are the heart of Quick Sort; The combination 
+of these three processes will produce a fully sorted array.
+
+
+3. QUICK SORT PERFORMANCE OPTIMIZATION: PIVOT SELECTION
 
 Quick Sort's performance depends largely on Pivot selection. A well-selected pivot
-will let the algorithm sortByAscendingOrder in logarithmic time, but a poor choice 
-for a pivot may result in exponential time. How do you select a pivot? The common 
-choices for a pivot are the first, last and middle elements in an array. Under 
-certain circumstances, choosing the first or last elements as a pivot could result in 
-worst case performance. (E.g. If you want to forward sort or reverse sort a list that 
-is already sorted, you could get exponential time complexity if you choose the first 
-or last elements as the pivot.) The middle element is usually a better choice, as is
-the median element (use the first, last and middle items to calculate the median 
-element.). However, for large lists, randomly chosen pivots ensure O(n log n) time 
-complexity.
+will let the algorithm sort a list in logarithmic time, but a poor choice for a pivot 
+may result in exponential time. This is especially true for large arrays.
 
+So how do you select a pivot? The common choices for a pivot are the first, last and 
+middle elements in an array. However, under certain circumstances, choosing the first 
+or last elements as the pivot could result in worst case performance. (E.g. If you want to 
+forward sort or reverse sort a list that is already sorted, you could get exponential 
+time complexity if you choose the first or last elements as the pivot.) 
 
-    STEP 1:        { 73, -12, 83, 292, -3891, 92384, 83 };
-
-
-
-"Because divide-and-conquer creates at least two sub-problems, a divide-and-conquer
-algorithm makes multiple recursive calls."[2] In Quick Sort, all the work happens in
-the DIVIDE step and no work happens in the COMBINE step.
-
-to break
-down the main problem into sub-problems. Then, the Quick Sort method recursively calls
-itself over and over to break these sub-problems into yet smaller sub-problems. Once
-the sub-problems have been broken down into their smallest possible size, the process
-of solving them starts. Starting with the newest and smallest sub-problems and working
-back to the biggest sub-problems, Quick Sort begins to sortByAscendingOrder the sorting 
-phase of the algorithm.
-
-Quicksort begins by breaking up the starting array into two sub-arrays. Quicksort does
-a pass over the sub-array's, lightly sorting its contents. After the first pass, each 
-of these sub-arrays are further split up into more sub-arrays by recursively calling 
-the sortByAscendingOrder() method. The Quicksort algorithm will continue to divide 
-sub-arrays into smaller sub-arrays and sorting their values again and again until the 
-sub-arrays are so small that they have only one element left.
-
-Stage 1: Split Up the Problem Into Sub-problems
-
-To split up the array as described above, you need to choose a PIVOT value. The pivot 
-value can be any in the array, but usually, a value in the middle or at one end of the 
-array is chosen to be the pivot. With the pivot selected, the values of the array can 
-be partitioned, which is to say, they can sorted in an order relative to the pivot 
-value. 
-
-Values that are LESS THAN OR EQUAL TO THE PIVOT are moved to the LEFT side of the 
-array and values that are GREATER THAN THE PIVOT are moved to the RIGHT of the pivot. 
-The relative order between elements is not important at this stage, only the weight of 
-each value relative to the pivot. When all elements have been moved to the correct 
-side of the pivot, the array is said to have been partitioned.
-
-"In practice, sortByAscendingOrder outperforms merge sort, and it significantly 
-outperforms selection sort and insertion sort."[3]  Quick Sort can sort a data set in 
-O(n log n) time in the average case (logarithmic time) and O(n^2) in the worst case 
-scenario (exponential time). 
-
+The middle element is usually a better choice, as is the median element (use the first, 
+last and middle items to calculate the median element.). However, for large lists, 
+randomly chosen pivots ensure O(n log n) time complexity.
 
 
 
 SOURCES
 1. https://en.wikipedia.org/wiki/Divide-and-conquer_algorithm
 2. Divide and Conquer Algorithms: https://www.khanacademy.org/computing/computer-science/algorithms/merge-sort/a/divide-and-conquer-algorithms
-3. Overview of Quicksort: https://www.khanacademy.org/computing/computer-science/algorithms/quick-sort/a/overview-of-quicksort
+3. Overview of Quick Sort: https://www.khanacademy.org/computing/computer-science/algorithms/quick-sort/a/overview-of-quicksort
 4. Joe James Youtube Channel: https://www.youtube.com/user/joejamesusa
 5. Code2Bits GitHub Repo for Quick Sort: https://github.com/Code2Bits/Algorithms-in-Java/blob/master/sort/src/main/java/com/code2bits/algorithm/sort/QuickSort.java
