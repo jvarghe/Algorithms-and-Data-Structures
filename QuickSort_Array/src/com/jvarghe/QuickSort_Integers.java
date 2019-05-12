@@ -8,7 +8,8 @@ import java.util.Random;
 public class QuickSort_Integers 
 {
     // This is the method that sorts the array in Ascending Order by calling the 
-    // Quick Sort algorithm.
+    // Quick Sort algorithm. It tests the array to make sure it meets Quick Sort's
+    // requirements.
     public void sortByAscendingOrder(int[] array) throws IllegalArgumentException
     {
         // If it is a null array, throw an exception.
@@ -31,110 +32,162 @@ public class QuickSort_Integers
     }
     
 
-    // This method recursively calls itself over and over. The first thing it does is to
-    // call the partition() method and ask it to sort the array. The partition() method 
-    // will do this and also return a new pivot for the array. 
+    // The quickSort() method does two things: it sends the array to get partitioned 
+    // and then divides the newly partitioned array into two new arrays. quickSort() then 
+    // recursively calls itself on the two new arrays, starting a process where arrays
+    // are partitioned and then divided into smaller ones over and over. This is a short
+    // description of the Quick Sort algorithm. This process will continue to divide the
+    // array into sub-arrays until each sub-array has a minimum of two elements in it. 
+    //
+    // Note that Quick Sort does all its work in the original array. No new arrays are 
+    // created. This is an important because elements are only swapped, which makes 
+    // shifting all the other elements around unnecessary. This is what makes it faster 
+    // than other sorting algorithms. For instance, Insertion Sort takes a brute force 
+    // approach to sorting. It inserts and moves elements around, often multiple times. 
+    // Quick Sort is much more efficient, requiring fewer swaps and no shifts.
     // 
-    // Then, provided that it is not too small, quickSort() will divide the array
-    // (or sub-array), into two smaller sub-arrays called partitions (Left and Right 
-    // partition). quickSort() will recursively call itself on each new sub-array and 
-    // will continue this process of dividing the array into smaller fragments. This 
-    // process stops when every sub-array has a minimum of two elements in it. 
+    // Note that Quick Sort does not directly sort the array. Rather, the combination of 
+    // these three processes, namely partitioning, array division and recursion, will 
+    // produce a sorted array.
+    // 
+    // Suggestion: This is a complex algorithm. Use print statements to track what is 
+    // happening. For example, after every call to the partition() method, print the 
+    // array and variables like nextSwapIndex, currentIndex etc. 
     private void quickSort(int[] array, int startIndex, int endIndex)
     {
-        // The startIndex of the sort space should always be smaller than the endIndex.
-        // It does not make any sense otherwise. If startIndex is equal to endIndex, both
-        // indices are pointing to the same element; ergo, there is only one element in 
-        // that list. This is too few to sort. If startIndex > endIndex, the sort space 
-        // has a negative number of elements in it; this is quite meaningless. Therefore, 
-        // we have to stop executing this method if either of these conditions occur. 
+        // There are two index-related conditions that will stop the recursive loop. Both
+        // of them are intended to make sure that an array has at least two elements in 
+        // it. 
+        // 
+        // The rule is that the startIndex of the sort space should always be smaller 
+        // than the endIndex. It does not make any sense otherwise. If startIndex is 
+        // equal to endIndex, both indices are pointing to the same element; ergo, there 
+        // is only one element in that list. This is too few to sort. If startIndex is 
+        // less than endIndex, the sort space has a negative number of elements in it, 
+        // which is quite meaningless. Therefore, we have to stop executing this method 
+        // if either of these conditions occur. 
         if(startIndex >= endIndex) 
         { 
             return; 
         }
         // As long as startIndex < endIndex, the two indices are pointing to at least 
-        // two separate elements. This condition check guarantees that the sort space has
-        // at least two elements in it. Two elements is the minimum size an array or 
-        // sub-array needs in order to be sorted. This check will ensure that new 
-        // sub-arrays will be created until sub-array sizes drop below two, at which 
-        // point this condition check will fail and quickSort() will stop creating new 
-        // partitions.
+        // two separate elements. As long as this condition is true, it guarantees that 
+        // the sort space has at least two elements in it. Two elements is the minimum 
+        // size an array or sub-array needs in order to be sorted. This check will 
+        // ensure that new sub-arrays will be created until sub-array sizes drop below 
+        // two. When the size of the array or sub-array drops below two, this condition 
+        // check will fail and quickSort() will stop creating new partitions.
         else if (startIndex < endIndex) 
         {
-            // Generate a new pivot for this array by calling the partition method...
+            // Call the partition() method to partition this array. partition() will 
+            // select a new pivot element and use it to organize elements into two 
+            // partitions. The pivot element will sit between the two partitions. It 
+            // will also return the index of this new pivot value. 
             int pivotIndex = partition(array, startIndex, endIndex);
             
-            // ...and then, designate all values between the startIndex and 
-            // (pivotIndex - 1) to be part of the LEFT PARTITION. Recursively call 
-            // quickSort() on the LEFT partition.
-            quickSort(array, startIndex, pivotIndex - 1);
             
-            // ...and then, designate all values between (pivotIndex + 1) and endIndex
-            // to be part of the RIGHT PARTITION. Recursively call quickSort() on the 
-            // RIGHT partition.
+            // PARTITION CREATION
+            // Now that the array has been partitioned into two blocks, the left 
+            // partition should have all the elements less than the pivot and the right
+            // partition should have all the elements greater than the pivot. 
+            // 
+            // This makes the array ready for division into smaller sub-array. The array
+            // can now be formally demarcated into left and right partitions, with the
+            // pivot serving as the point of division. 
+            //
+            // Note: The pivot does not fall into either partition. What happens to it?
+            // What happens to all the pivots? Are they already in the right place? 
+            
+            
+            // LEFT PARTITION: Designate all values between the startIndex and 
+            // (pivotIndex - 1) to be part of the left partition. Recursively call 
+            // quickSort() on the LEFT partition to partition it again. 
+            quickSort(array, startIndex, pivotIndex - 1);
+
+            // RIGHT PARTITION: Designate all values between (pivotIndex + 1) and 
+            // endIndex to be part of the right partition. Recursively call quickSort() 
+            // on the RIGHT partition to partition it again. 
             quickSort(array, pivotIndex + 1, endIndex);
         }
     }
 
-
-    // The partition() Method
-    // 
-    // This method does most of the heavy lifting when it comes to sorting. When called, 
-    // partition() will be given an array (or a partition/sub-array) and two indices. 
-    // The indices designate the range of the sort space. If they point to the first and 
-    // last elements in the array, the sort space is the entire array. If the indices 
-    // point to some subset of the array, then the sort space is called a partition. 
-    // partition() will do ONE PASS over the array or partition, sorting values from 
-    // left to right. 
-    //
-    // Generally speaking, partition() will move all element values < pivot to an index
-    // earlier in the list and all elements values > pivot to points later in the array. 
-    // Finally, it returns a new pivot index.
+    
+    /* THE partition() METHOD
+     * 
+     * This method kind of sorts the array, but not really. There is a reason why it is
+     * called partition() instead of sort(). The partition() method will be given an 
+     * array and two indices. partition() could be asked to work on the whole array or 
+     * a part of it (sub-array). Therefore, the indices demarcate the boundaries of the 
+     * space in which partition() should operate. 
+     * 
+     * The main purpose of this method is to compare an array or sub-array's elements 
+     * to a specially selected element. Based on the outcome of this comparison, elements 
+     * are filtered into one of two buckets. This process is called PARTITIONING and 
+     * the buckets are called PARTITIONS. Understand that the partitions do not have to 
+     * be of the same size. Therefore, the exact size of the partition is not known 
+     * until after the winnowing process is done.  
+     * 
+     * To partition the array, an element called the PIVOT is selected from the array.
+     * During partitioning, each element in the array will be compared to the pivot to 
+     * determine if it is greater than or less than the pivot. Elements less than the 
+     * pivot will get moved to first half of the array while elements greater than the 
+     * pivot get moved to latter indices.
+     * 
+     * It's important to note that the process of partitioning does not create a 
+     * perfectly sorted array/sub-array. It merely creates two partitions, separated by
+     * the pivot value. Elements less than the pivot live at indices before the pivot
+     * and elements greater than the pivot live at indices after the pivot. Once the 
+     * array has been partitioned, control will return to the quickSort() method, which 
+     * will formally break the array into two separate arrays. 
+     */
     private int partition(int[] array, int startIndex, int endIndex) 
     {
         // Pass in index values that demarcate the boundaries of the sort space to the 
-        // getPivot() method. getPivot() will randomly select an index from this sort 
-        // space, including startIndex and endIndex, and return this value. The element 
-        // at this index will serve as the pivot element.
+        // getPivot() method. If they point to the first and last elements in the array, 
+        // the sort space is the entire array. If the indices demarcate some subset of 
+        // the array, then the sort space is a sub-array. getPivot() will randomly 
+        // select an index from this sort space, including startIndex and endIndex, and 
+        // return this value. The element at this index will serve as the pivot element.
         int pivotIndex = getPivot(startIndex, endIndex);
 
         // Call the swapElements() method which swaps the endIndex and pivotIndex
         // elements. This will move the pivot element to the rightmost position in the
-        // array or partition, i.e. to the last index.
+        // array or sub-array, i.e. to the last index.
         swapElements(array, pivotIndex, endIndex);
         
         // Now that the pivot and last element has been swapped, the indexes need to be
-        // reset as well. The pivotIndex is pointed to the last index in the array or 
-        // partition, as this is the pivot element's new location.
+        // updated as well. The pivotIndex is pointed to the last index in the array or 
+        // sub-array, as this is the pivot element's new location.
         pivotIndex = endIndex;
 
         // nextSwapIndex will used to track elements that qualify to be swapped with 
         // the currentIndex element. Be aware that nextSwapIndex is an intrinsic cog in 
-        // the sorting process, but its role is probably the hardest thing to understand 
-        // in this algorithm. Pay close attention to it. More on this in the next 
-        // comment.
+        // the partitioning process, but its role is probably the hardest thing to
+        // understand  in this algorithm. Pay close attention to it. More on this in 
+        // the next comment.
         int nextSwapIndex = startIndex;
         
         
         /* THE SORTING LOOP: THE CORE MECHANICS OF QUICK SORT'S SORTING PROCESS
          * 
-         * QUICK HIGH-LEVEL OVERVIEW
+         * SHORT HIGH-LEVEL OVERVIEW
          * 
          * The quickSort() method is responsible for overseeing the full sorting of the 
-         * array. As such, repeated recursive calls to quickSort() will be made, which 
-         * will call the partition() method over and over.
+         * array. As previously noted, it is the combination of partitioning, dividing of 
+         * the array into smaller pieces and recursion that sorts the array. As such, 
+         * quickSort() will repeatedly make recursive calls to itself, which in turn will 
+         * result in the partition() method being called over and over.
          * 
          * Whenever the partition() method is called, quickSort() will give it an array 
-         * or a subset of one. partition() will do one sorting pass on it. This will 
-         * not fully sort the array, but will bring it one step closer to being fully 
-         * sorted. quickSort() will create new sub-arrays and repeatedly invoke 
-         * partition(). This process should fully sort the list. 
+         * or a subset of one. partition() will do ONE partitioning pass on it. This will
+         * separate elements into two partitions. When the method ends, quickSort() can 
+         * create two new sub-arrays and invoke partition() on both of them again.
          *
          * 
          * GENERAL OVERVIEW OF THE LOOP
          * 
-         * This is the loop that does the sorting for Quick Sort. It traverses the
-         * array or partition and compares each element to the pivot value. The loop 
+         * This is the loop that does the partitioning in Quick Sort. It traverses the
+         * array or sub-array and compares each element to the pivot value. The loop 
          * starts at the left and goes rightwards, beginning at startIndex and going all 
          * the way to the penultimate index in the array or partition. Note that at the 
          * start of the pass and throughout most of it, the pivot will be at the last 
@@ -146,14 +199,12 @@ public class QuickSort_Integers
          * These values are swapped to indices earlier in the array. Element values
          * greater than the pivot's value will be moved to indices later in the array.
          * At the end of sorting, the pivot will be swapped to sit between these two 
-         * blocks of elements.
+         * blocks of elements, ready for quickSort() demarcate the array into two 
+         * new arrays.
          * 
          * So at the end of the sorting pass, the array should look like this: First the 
          * block of elements whose values are less than the pivot, followed by the pivot 
          * itself, and lastly, the block of elements that are greater than the pivot. 
-         * As noted, a single pass cannot sort all the elements in perfect order, but 
-         * generally, you should have a list that is closer to a perfectly sorted state 
-         * than it was before the pass. 
          * 
          * 
          * WALKING THROUGH THE LOOP
@@ -164,7 +215,7 @@ public class QuickSort_Integers
          * element in the array until the final step of the sorting process. 
          * 
          * currentIndex and nextSwapIndex are the two pointers that will be active during 
-         * sorting. currentIndex will start at the beginning of the sort space 
+         * partitioning. currentIndex will start at the beginning of the sort space 
          * (startIndex) and will be used to point to every element as the loop iterates 
          * through the array.
          * 
@@ -172,50 +223,70 @@ public class QuickSort_Integers
          * It asks: is the value of the current element (starting with the first element) 
          * less than or equal to the pivot element's value? 
          * 
-         * If the value is greater, the body of the if-block is skipped, the loop moves 
+         * If the value is GREATER, the body of the if-block is skipped, the loop moves 
          * on to checking the second element. Every time this happens, currentIndex is 
          * incremented by one.
          * 
-         * However, if the current element's value is lower than the pivot's value, the
+         * However, if the current element's value is LOWER than the pivot's value, the
          * if-block's body is executed. This will swap the currentIndex and nextSwapIndex
          * elements. The nextSwapIndex will then be incremented by one and made to point 
          * to the next element in the list.
          * 
          * 
-         * THE DYNAMIC OF THE LOOP
+         * THE DYNAMICS OF THE LOOP
          * 
-         * By testing for values less than or equal to the pivot, the if-check swaps 
-         * smaller values to earlier indices in the array/partition, but leaves larger 
-         * values in place, at least initially. However, this process brings nextSwapIndex 
-         * into play. At the start of the loop, nextSwapIndex will be pointing to 
-         * startIndex. 
+         * By testing for values less than or equal to the pivot, the if-check skips over
+         * elements larger than the pivot, while swapping elements smaller than the pivot
+         * into earlier indices. How is this done? 
          * 
-         * Whenever the loop finds a smaller value later in the list, it will have to be
-         * swapped with a value earlier in the list. nextSwapIndex will be ready and 
-         * waiting, pointing to a larger value with which the smaller one can be 
-         * exchanged. This is the role of nextSwapIndex: it starts at startindex and 
-         * every time a element swap is effected, it moves to the right, tracking the 
-         * index of the next position available for a swap. 
+         * Well, both currentIndex and nextSwapIndex start by pointing to the first index
+         * in the array or partition and work their way (leftwards) to end of the array. 
+         * While currentIndex is incremented frequently, nextSwapIndex is incremented 
+         * only when a swap is done. Therefore, while both these variables start at 
+         * startIndex, currentIndex quickly overtakes nextSwapIndex, and spends most of 
+         * the loop pointing to indices later in the array.
          * 
-         * At the end of the sorting iteration, nextSwapIndex will be sitting between
-         * the block of elements that less than the pivot and the block of elements 
-         * greater than the pivot. Thus, this is where the new pivot for the array 
-         * should be located. 
+         * The result of this dynamic is that currentIndex skips over values larger than 
+         * the pivot that live earlier in the array while seeking out values lesser than
+         * the pivot. These lesser elements are swapped into positions earlier in the 
+         * array, starting at startIndex. This is nextSwapIndex's job. 
          * 
-         * Therefore, when the loop ends, the last thing partition() does is swap the
-         * existing pivot element and nextSwapIndex element. The indices are also changed
-         * to reflect this. 
+         * When currentIndex finds an element smaller than the pivot, it is swapped into 
+         * the index that nextSwapIndex is pointing to. Then, nextSwapIndex is 
+         * incremented by one to move past the swapped element and to mark the index 
+         * where the next smaller element can be placed. Thus, if three elements have 
+         * been swapped in an array thus far, nextSwapIndex will be pointing to index 3. 
+         * If a fourth element smaller than the pivot is found, it will be swapped 
+         * into index 3. 
+         * 
+         * The important thing to bear in mind is that partitioning does not sort the 
+         * array, except if you get very lucky. Rather, it is partition()'s job to sort 
+         * the array into two broad buckets separated at the pivot. This should result 
+         * in three general blocks of elements: elements less than the pivot, the pivot, 
+         * and elements greater than the pivot. So, if a swap should put a smaller 
+         * element after a larger element in the first block, this does not matter very 
+         * much as the only point of importance in partitioning is an element's value 
+         * relative to the pivot's value. 
+         * 
+         * At the end of the partitioning, nextSwapIndex will be sitting between the 
+         * block of elements whose values are less than the pivot and the block of 
+         * elements greater than the pivot. Thus, this is where the new pivot for the 
+         * array should be located. Therefore, when the loop ends, the last thing 
+         * partition() does is swap the existing pivot element and nextSwapIndex element. 
+         * The indices are also changed to match the swap. 
          */
         for(int currentIndex = startIndex; currentIndex < endIndex; currentIndex++) 
         {
-            // Compares currentIndex element with pivotIndex element.
+            // If the currentIndex element is LESS THAN the pivotIndex element...
             if(array[currentIndex] <= array[pivotIndex]) 
             {
+                // ...Swap the current element with the nextSwapIndex element. 
                 swapElements(array, currentIndex, nextSwapIndex);
                 nextSwapIndex++;
             }
         }
         
+        // SWAPPING THE PIVOT ELEMENT
         // Swap the current pivot element into the position of the nextSwapIndex.
         swapElements(array, nextSwapIndex, pivotIndex);
         
@@ -263,7 +334,7 @@ public class QuickSort_Integers
     }
 
 
-    // This method takes an array/partition and two indices. It swaps the elements at 
+    // This method takes an array/sub-array and two indices. It swaps the elements at 
     // these indices. 
     private void swapElements(int[] array, int index1, int index2)
     {
