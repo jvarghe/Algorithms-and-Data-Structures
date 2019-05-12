@@ -10,7 +10,7 @@
  * the standard sort methods. Quick Sort is very efficient at sorting large data sets. 
  *
  * Quick Sort is a fairly complex algorithm, so see the 'Quick Sort.txt' file for more
- * information. After that, you can continue with the .java files. 
+ * information. After that, you can proceed to 'QuickSort_Integers.java'. 
  */
 
 

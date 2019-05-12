@@ -13,10 +13,12 @@ Here is Wikipedia's explanation[1]:
 
 Divide-and-Conquer usually has three phases: 
 
+
     * DIVIDE: Carve the problem into sub-problems of the same type. 
     * CONQUER: Recursively solve the smaller problems.  
     * COMBINE: Combine the small chunks into the original data set, which should now
       be problem free. 
+      
 
 This strategy can only be applied to problems that can be broken up into smaller
 problems of the same or a similar type. Therefore, during the Divide phase, the big 
@@ -404,15 +406,18 @@ Quick Sort's performance depends largely on Pivot selection. A well-selected piv
 will let the algorithm sort a list in logarithmic time, but a poor choice for a pivot 
 may result in exponential time. This is especially true for large arrays.
 
-So how do you select a pivot? The common choices for a pivot are the first, last and 
-middle elements in an array. However, under certain circumstances, choosing the first 
+So how do you select a pivot? The common choices for a pivot are either the first, last 
+or middle element in an array. However, under certain circumstances, choosing the first 
 or last elements as the pivot could result in worst case performance. (E.g. If you want to 
 forward sort or reverse sort a list that is already sorted, you could get exponential 
-time complexity if you choose the first or last elements as the pivot.) 
+time complexity if you choose the first or last elements as the pivot.) If you're going
+to pick a single element, the middle element is usually a better choice.
 
-The middle element is usually a better choice, as is the median element (use the first, 
-last and middle items to calculate the median element.). However, for large lists, 
-randomly chosen pivots ensure O(n log n) time complexity.
+However, for very large data sets, Quick Sort tends to have rather poor performance. To
+alleviate this problem, there is a pivot selection method called the 'Median of Three 
+Values'. In this approach, the getPivot() method retrieves the first, last and middle
+elements and puts them into an new array. This array is then sorted and the middle 
+element is selected as the new pivot. See Sources 6 and 7 for more information.
 
 
 
@@ -422,3 +427,5 @@ SOURCES
 3. Overview of Quick Sort: https://www.khanacademy.org/computing/computer-science/algorithms/quick-sort/a/overview-of-quicksort
 4. Joe James Youtube Channel: https://www.youtube.com/user/joejamesusa
 5. Code2Bits GitHub Repo for Quick Sort: https://github.com/Code2Bits/Algorithms-in-Java/blob/master/sort/src/main/java/com/code2bits/algorithm/sort/QuickSort.java
+6. https://stackoverflow.com/questions/7559608/median-of-three-values-strategy
+7. Quick Sort using Median of Three Values: https://gist.github.com/epomp447/4c0d0676d9f013788647cbe6e60ae0df

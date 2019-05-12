@@ -55,28 +55,30 @@ public class QuickSort_Integers
     // array and variables like nextSwapIndex, currentIndex etc. 
     private void quickSort(int[] array, int startIndex, int endIndex)
     {
-        // There are two index-related conditions that will stop the recursive loop. Both
-        // of them are intended to make sure that an array has at least two elements in 
-        // it. 
+        // BASE CASE OF quickSort()
+        // 
+        // This if-statement triggers the end of the recursive loop. This occurs when an 
+        // array or sub-array has less than two elements in it (one or fewer).
         // 
         // The rule is that the startIndex of the sort space should always be smaller 
         // than the endIndex. It does not make any sense otherwise. If startIndex is 
         // equal to endIndex, both indices are pointing to the same element; ergo, there 
-        // is only one element in that list. This is too few to sort. If startIndex is 
-        // less than endIndex, the sort space has a negative number of elements in it, 
+        // is only one element in that list. This is too few to partition. If startIndex 
+        // is less than endIndex, the sort space has a negative number of elements in it, 
         // which is quite meaningless. Therefore, we have to stop executing this method 
         // if either of these conditions occur. 
         if(startIndex >= endIndex) 
         { 
             return; 
         }
+        // RECURSIVE CASE OF quickSort()
+        // 
         // As long as startIndex < endIndex, the two indices are pointing to at least 
         // two separate elements. As long as this condition is true, it guarantees that 
         // the sort space has at least two elements in it. Two elements is the minimum 
-        // size an array or sub-array needs in order to be sorted. This check will 
-        // ensure that new sub-arrays will be created until sub-array sizes drop below 
-        // two. When the size of the array or sub-array drops below two, this condition 
-        // check will fail and quickSort() will stop creating new partitions.
+        // size an array or sub-array needs in order to be partitioned. When the size 
+        // of the array or sub-array drops below two, this condition check will fail and 
+        // quickSort() will stop creating new partitions on that recursive branch.
         else if (startIndex < endIndex) 
         {
             // Call the partition() method to partition this array. partition() will 
@@ -91,12 +93,13 @@ public class QuickSort_Integers
             // partition should have all the elements less than the pivot and the right
             // partition should have all the elements greater than the pivot. 
             // 
-            // This makes the array ready for division into smaller sub-array. The array
+            // This makes the array ready for division into smaller sub-arrays. The array
             // can now be formally demarcated into left and right partitions, with the
             // pivot serving as the point of division. 
             //
             // Note: The pivot does not fall into either partition. What happens to it?
-            // What happens to all the pivots? Are they already in the right place? 
+            // It appears that the first partitioning pass puts the pivot into its final
+            // position.
             
             
             // LEFT PARTITION: Designate all values between the startIndex and 
@@ -287,7 +290,8 @@ public class QuickSort_Integers
         }
         
         // SWAPPING THE PIVOT ELEMENT
-        // Swap the current pivot element into the position of the nextSwapIndex.
+        // When partitioning is complete, swap the pivot element and the nextSwapIndex
+        // elements.
         swapElements(array, nextSwapIndex, pivotIndex);
         
         // Change the pivotIndex to point to the position of the new pivot element. 
@@ -299,7 +303,7 @@ public class QuickSort_Integers
     // Returns a random pivot index between the low and high indices, inclusive. Note: 
     // Quick Sort has a tendency to have pathologically poor performance with very large
     // sets. If you want to prevent this from happening, replace this Pivot selection 
-    // algorithm with a 'Median of Three Integers' algorithm.
+    // algorithm with a 'Median of Three Values' algorithm.
     private int getPivot(int low, int high)
     {
         // GENERATING RANDOM NUMBERS BETWEEN AND WITHIN A RANGE
