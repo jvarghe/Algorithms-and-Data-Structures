@@ -4,9 +4,11 @@ import java.util.Random;
 
 
 // This implementation of Quick Sort is based on Code2Bits's implementation. See Source
-// 5 in Quick Sort.txt.
+// 6 in Quick Sort.txt.
 public class QuickSort_Integers 
 {
+    // THE sortByAscendingOrder() METHOD
+    // 
     // This is the method that sorts the array in Ascending Order by calling the 
     // Quick Sort algorithm. It tests the array to make sure it meets Quick Sort's
     // requirements.
@@ -32,6 +34,8 @@ public class QuickSort_Integers
     }
     
 
+    // THE quickSort() METHOD
+    //
     // The quickSort() method does two things: it sends the array to get partitioned 
     // and then divides the newly partitioned array into two new arrays. quickSort() then 
     // recursively calls itself on the two new arrays, starting a process where arrays
@@ -46,16 +50,17 @@ public class QuickSort_Integers
     // approach to sorting. It inserts and moves elements around, often multiple times. 
     // Quick Sort is much more efficient, requiring fewer swaps and no shifts.
     // 
-    // Note that Quick Sort does not directly sort the array. Rather, the combination of 
-    // these three processes, namely partitioning, array division and recursion, will 
-    // produce a sorted array.
+    // Note that Quick Sort does not directly sort the array, to wit, the algorithm
+    // does not directly search for the highest element, the second-highest element
+    // etc. and then put them in order. Rather, the combination of these three processes, 
+    // namely partitioning, array division and recursion, will produce a sorted array.
     // 
     // Suggestion: This is a complex algorithm. Use print statements to track what is 
     // happening. For example, after every call to the partition() method, print the 
     // array and variables like nextSwapIndex, currentIndex etc. 
     private void quickSort(int[] array, int startIndex, int endIndex)
     {
-        // BASE CASE OF quickSort()
+        // THE BASE CASE OF quickSort()
         // 
         // This if-statement triggers the end of the recursive loop. This occurs when an 
         // array or sub-array has less than two elements in it (one or fewer).
@@ -71,7 +76,7 @@ public class QuickSort_Integers
         { 
             return; 
         }
-        // RECURSIVE CASE OF quickSort()
+        // THE RECURSIVE CASE OF quickSort()
         // 
         // As long as startIndex < endIndex, the two indices are pointing to at least 
         // two separate elements. As long as this condition is true, it guarantees that 
@@ -141,7 +146,7 @@ public class QuickSort_Integers
      * the pivot value. Elements less than the pivot live at indices before the pivot
      * and elements greater than the pivot live at indices after the pivot. Once the 
      * array has been partitioned, control will return to the quickSort() method, which 
-     * will formally break the array into two separate arrays. 
+     * will formally divide the array into two separate arrays. 
      */
     private int partition(int[] array, int startIndex, int endIndex) 
     {
@@ -166,7 +171,7 @@ public class QuickSort_Integers
         // nextSwapIndex will used to track elements that qualify to be swapped with 
         // the currentIndex element. Be aware that nextSwapIndex is an intrinsic cog in 
         // the partitioning process, but its role is probably the hardest thing to
-        // understand  in this algorithm. Pay close attention to it. More on this in 
+        // understand in this algorithm. Pay close attention to it. More on this in 
         // the next comment.
         int nextSwapIndex = startIndex;
         
@@ -300,6 +305,8 @@ public class QuickSort_Integers
     }
 
 
+    // The getPivot() METHOD
+    //
     // Returns a random pivot index between the low and high indices, inclusive. Note: 
     // Quick Sort has a tendency to have pathologically poor performance with very large
     // sets. If you want to prevent this from happening, replace this Pivot selection 
@@ -338,6 +345,8 @@ public class QuickSort_Integers
     }
 
 
+    // THE swapElements() METHOD
+    // 
     // This method takes an array/sub-array and two indices. It swaps the elements at 
     // these indices. 
     private void swapElements(int[] array, int index1, int index2)
