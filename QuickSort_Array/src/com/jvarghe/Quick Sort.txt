@@ -177,12 +177,12 @@ Here's a flowchart that illustrates major events in the algorithm:
 
         +-------------------+      +---------------+
         |                   |      |               |
-        | QUICK SORT STARTS | +--> | PARTITION THE | <---------------------------+                           
-        |                   |      |     ARRAY     |                             |
-        +-------------------+      |               |                             |
-                                   +---------------+                             |
-                                                                                 |
-                                          +                                      |
+        | QUICK SORT STARTS | +--> | PARTITION THE |                            
+        |                   |      |     ARRAY     |                             
+        +-------------------+      |               |                             
+                                   +---------------+                             
+                                                                                 
+                                          + <------------------------------------+                            |
                                           |                                      |
                                           v                                      |
                                                                                  |
@@ -570,10 +570,11 @@ partition this array again, but with one major change: instead of partitioning t
 whole array, the array will be "divided" into two distinct sub-arrays. Then, the 
 quickSort() algorithm will be applied to both sub-arrays. 
 
-This is the major business of the second phase of Quick Sort: Array Division. While 
-I have mentioned three algorithmically important sections above, for the purposes
-of array division, the pivot will be rolled into one of the partitions, leaving only 
-two algorithmically important segments to this array: the Left and Right partitions. 
+This is the major business of the second phase of Quick Sort: Array Division. At
+the end of the first iteration, you are guaranteed to have at least one element in
+its correct final position: the pivot element. Therefore, it will be excluded from
+all future iterations. This means two algorithmically important sections need still 
+be sorted: the left and right partitions. 
 
 At this point, it is important to note that Quick Sort is an in-place algorithm. 
 This is an algorithm in which the data that is being operated on does not leave its 
@@ -581,6 +582,17 @@ data structure. This means that no new arrays are created. In Quick Sort, array
 division is done by formally tracking the boundaries of the left and right 
 partitions, so that you can treat them like separate arrays. As these partitions are 
 parts of the original array, they are often referred to as sub-arrays.
+
+The left partition will be designated by marking all elements in between the first
+element of the sub-array to the last element before the pivot, inclusive. At the
+end of the first iteration, this will mean all elements from the first to the last
+element before the pivot. 
+
+The pivot will be skipped over because it is already in its final position. The 
+right partition will consist of all elements starting from the element right after 
+the pivot to the end of the sub-array, inclusive. At the end of the first iteration, 
+this means all elements between the element after the pivot and the last element 
+in the array. 
 
 Array division is fairly straightforward, thus concluding phase two. This brings us 
 to phase three.
