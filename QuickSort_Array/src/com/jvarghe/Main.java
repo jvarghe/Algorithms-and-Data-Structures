@@ -1,17 +1,41 @@
 /* QUICK SORT: INTRODUCTION
  *
- * The Quick Sort (QS) algorithm is a moderately fast sorting algorithm, but one that 
- * could take exponential time in the worst case. Despite theoretically poor performance 
- * in the worst case, in practice, Quick Sort is considered a fast and efficient sorting 
- * algorithm. This is because there is an implementation trick that helps Quick Sort 
- * avoid the theoretical worst case scenario. If you can (mostly) constrain Quick Sort's 
- * time complexity performance to logarithmic levels, Quick Sort becomes one of the most 
- * practical sorting algorithms. In fact, most language libraries use Quick Sort to power
- * the standard sort methods. Quick Sort is very efficient at sorting large data sets. 
+ * Theoretically speaking, the Quick Sort (QS) algorithm is a moderately fast sorting 
+ * algorithm, but one that could take exponential time in the worst case. Despite 
+ * theoretically poor performance in the worst case, in practice, Quick Sort is 
+ * considered a fast and efficient sorting algorithm. It is often used when time is a
+ * constraint. 
+ * 
+ * This is because there is an implementation trick that helps Quick Sort avoid the 
+ * theoretical worst case scenario. If you can (mostly) constrain Quick Sort's 
+ * time complexity performance to logarithmic levels, Quick Sort becomes one of the 
+ * most practical sorting algorithms. In fact, most language libraries, including 
+ * many C and C++ standard libraries use Quick Sort to power the standard sort 
+ * methods. Quick Sort is very efficient at sorting large data sets. 
  *
  * Quick Sort is a fairly complex algorithm, so I recommend looking at 'Quick Sort.txt' 
  * file for more information first. After that, you can proceed to 
  * 'QuickSort_Integers.java'. 
+ * 
+ * 
+ * PERFORMANCE CHARACTERISTICS SUMMARY 
+ * 
+ *     Stable Algorithm:               No
+ *     Adpative Algorithm:             Not as it is typically implemented, but you can
+ *                                     write implementations that are stable.
+ *
+ * Time Complexity
+ * 
+ *     Worst-Case Performance:	       O(n^2) 
+ *     Best-case Performance:	       O(n log n) (simple partition), OR
+ *                                     O(n)       (three-way partition and equal keys) 
+ *     Average performance: 	       O(n log n)
+ * 
+ * 
+ * Space Complexity:
+ * 
+ *     Worst-case Space Complexity:    O(n)       auxiliary (naive),
+ *                                     O(log n)   auxiliary 
  */
 
 
